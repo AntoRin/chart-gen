@@ -16,7 +16,7 @@
       autocomplete="off"
       matAutosize="true"
       [matChipInputFor]="matChipList"
-      [matChipInputSeparatorKeyCodes]="[188, 13, 32]"
+      [matChipInputSeparatorKeyCodes]="chipKeyCodes"
       (matChipInputTokenEnd)="addNewKey()"
       [(ngModel)]="inputField"
     />

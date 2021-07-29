@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { ENTER, COMMA, SPACE } from "@angular/cdk/keycodes";
 
 @Component({
   selector: "app-chip-input",
@@ -9,6 +10,8 @@ export class ChipInputComponent implements OnInit {
   @Input() label: string;
   @Input() chipList: string[];
   @Output() chipEvent: EventEmitter<string[]> = new EventEmitter<string[]>();
+
+  readonly chipKeyCodes = [ENTER, COMMA, SPACE] as const;
 
   public inputField: string;
 
