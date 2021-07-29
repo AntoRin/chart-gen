@@ -10,6 +10,7 @@ export class ChartControlComponent implements OnInit {
   @Output() public chartInit: EventEmitter<ChartOptions> =
     new EventEmitter<ChartOptions>();
 
+  public chartTitle: string = "";
   public xAxisKeys: string[] = [];
   public values: string[] = [];
   public graphType: ChartOptions["type"] = "bar";
@@ -38,6 +39,7 @@ export class ChartControlComponent implements OnInit {
 
   createChart(_: any): void {
     this.chartInit.emit({
+      title: this.chartTitle,
       xAxisKeys: this.xAxisKeys,
       values: this.values.map((val) => Number(val)),
       type: this.graphType,

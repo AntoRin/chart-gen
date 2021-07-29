@@ -4,7 +4,6 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  SimpleChanges,
 } from "@angular/core";
 
 @Directive({
@@ -17,8 +16,7 @@ export class ScrollIntoViewDirective implements OnChanges, OnDestroy {
     this.scroll = null;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
+  ngOnChanges(): void {
     if (!this.scroll) return;
     const element: HTMLElement = this._elementRef.nativeElement;
     element.scrollIntoView();

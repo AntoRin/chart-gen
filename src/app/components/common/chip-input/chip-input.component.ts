@@ -9,6 +9,7 @@ import { ENTER, COMMA, SPACE } from "@angular/cdk/keycodes";
 export class ChipInputComponent implements OnInit {
   @Input() label: string;
   @Input() chipList: string[];
+  @Input() includeBtn: boolean = false;
   @Output() chipEvent: EventEmitter<string> = new EventEmitter<string>();
   @Output() chipRemoveEvent: EventEmitter<number> = new EventEmitter<number>();
 

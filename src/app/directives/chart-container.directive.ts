@@ -29,7 +29,7 @@ export class ChartContainerDirective implements OnInit, OnChanges {
 
     this.chartInstance.setOption({
       title: {
-        text: "Testing echarts",
+        text: this.chartOptions.title || "Chart",
       },
       xAxis: {
         data: this.chartOptions.xAxisKeys,

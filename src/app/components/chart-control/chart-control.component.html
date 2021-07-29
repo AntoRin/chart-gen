@@ -1,7 +1,20 @@
 <div class="chart-control-container">
   <form (ngSubmit)="createChart($event)">
-    <div class="x-input-container">
+    <div class="input-container">
+      <mat-form-field>
+        <input
+          name="chartTitle"
+          matInput
+          autocomplete="off"
+          type="text"
+          placeholder="Name of the Chart"
+          [(ngModel)]="chartTitle"
+        />
+      </mat-form-field>
+    </div>
+    <div class="input-container">
       <app-chip-input
+        [includeBtn]="true"
         [chipList]="xAxisKeys"
         (chipEvent)="handleInputModification($event)"
         (chipRemoveEvent)="removeInput($event)"
@@ -10,8 +23,9 @@
       </app-chip-input>
     </div>
     <br />
-    <div>
+    <div class="input-container">
       <app-chip-input
+        [includeBtn]="true"
         [chipList]="values"
         (chipEvent)="handleValuesModification($event)"
         (chipRemoveEvent)="removeValue($event)"
