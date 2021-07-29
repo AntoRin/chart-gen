@@ -11,6 +11,7 @@ import {} from "@angular/platform-browser";
 import { MaterialUIModule } from "./material-ui/material-ui.module";
 import { ChipInputComponent } from './components/common/chip-input/chip-input.component';
 import { ScrollIntoViewDirective } from './directives/scroll-into-view.directive';
+import { HeaderComponent } from './components/common/header/header.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ScrollIntoViewDirective } from './directives/scroll-into-view.directive
     ChartControlComponent,
     ChipInputComponent,
     ScrollIntoViewDirective,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,

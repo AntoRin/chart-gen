@@ -15,7 +15,7 @@ export class ChartControlComponent implements OnInit {
   public values: string[] = [];
   public graphType: ChartOptions["type"] = "bar";
 
-  public allowedGraphTypes: ChartOptions["type"][] = ["bar", "line"];
+  public allowedGraphTypes: ChartOptions["type"][] = ["bar", "line", "scatter"];
 
   constructor() {}
 
