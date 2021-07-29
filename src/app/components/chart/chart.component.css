@@ -1,0 +1,8 @@
+.chart-wrapper {
+  overflow: hidden;
+}
+
+#chartContainer {
+  width: 100%;
+  height: 600px;
+}

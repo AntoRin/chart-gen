@@ -1,0 +1,11 @@
+<div class="chart-wrapper">
+  <app-chart-control
+    (chartInit)="handleChartCreation($event)"
+  ></app-chart-control>
+  <div
+    id="chartContainer"
+    [chartOptions]="chartOptions"
+    [init]="init"
+    appChartContainer
+  ></div>
+</div>

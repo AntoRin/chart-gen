@@ -1,0 +1,24 @@
+<div>
+  <form (ngSubmit)="createChart($event)">
+    <label for="xAxisKeys">X-Axis</label>
+    <input type="text" [(ngModel)]="xAxis" id="xAxisKeys" name="x" matInput />
+    <br />
+    <br />
+    <label for="dataPoints">Values</label>
+    <input
+      type="text"
+      [(ngModel)]="values"
+      id="dataPoints"
+      name="val"
+      matInput
+    />
+    <br />
+    <br />
+    <select name="graphType" id="graphType" [(ngModel)]="graphType">
+      <option *ngFor="let type of allowedGraphTypes">
+        {{ type }}
+      </option>
+    </select>
+    <button type="submit" mat-raised-button color="blue">Generate</button>
+  </form>
+</div>
