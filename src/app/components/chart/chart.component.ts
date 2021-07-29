@@ -9,6 +9,7 @@ import { ChartOptions } from "../../interfaces/ChartOptions";
 export class ChartComponent implements OnInit, OnDestroy {
   public chartOptions: ChartOptions = {} as ChartOptions;
   public init: boolean = true;
+  public scroll: string | null = null;
 
   public constructor() {}
 
@@ -16,9 +17,13 @@ export class ChartComponent implements OnInit, OnDestroy {
 
   handleChartCreation(options: ChartOptions) {
     this.chartOptions = options;
+    this.scroll =
+      Math.floor(Math.random() * 99999 + 1) +
+      btoa(String(Math.floor(Math.random() * 99999 + 1)));
   }
 
   ngOnDestroy(): void {
     this.init = false;
+    this.scroll = null;
   }
 }

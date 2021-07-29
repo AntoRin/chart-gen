@@ -7,7 +7,8 @@ import { ChartOptions } from "../interfaces/ChartOptions";
 })
 export class ChartContainerDirective implements OnInit, OnChanges {
   @Input() chartOptions: ChartOptions = {} as ChartOptions;
-  @Input() init!: boolean;
+  @Input() init: boolean = false;
+
   public containerElement!: HTMLDivElement;
   public chartInstance: echart.ECharts | undefined;
 

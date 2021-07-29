@@ -10,8 +10,8 @@ export class ChartControlComponent implements OnInit {
   @Output() public chartInit: EventEmitter<ChartOptions> =
     new EventEmitter<ChartOptions>();
 
-  public xAxis: string = "";
-  public values: string = "";
+  public xAxisKeys: string[] = [];
+  public values: string[] = [];
   public graphType: ChartOptions["type"] = "bar";
 
   public allowedGraphTypes: ChartOptions["type"][] = ["bar", "line"];
@@ -20,20 +20,22 @@ export class ChartControlComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  handleInputModification(newInput: string[]) {
+    this.xAxisKeys = newInput;
+  }
+
+  handleValuesModification(newInput: string[]) {
+    this.values = newInput;
+  }
+
+  removeKey(keyIdx: number) {
+    this.xAxisKeys.splice(keyIdx, 1);
+  }
+
   createChart(_: any): void {
-    let xAxisKeys: string[] = this.xAxis.split(" ");
-    let values: number[] | string[] = this.values.split(" ");
-
-    try {
-      values = values.map((key: string) => Number(key));
-    } catch (error) {
-      console.log(error);
-      return;
-    }
-
     this.chartInit.emit({
-      xAxisKeys,
-      values,
+      xAxisKeys: this.xAxisKeys,
+      values: this.values.map((val) => Number(val)),
       type: this.graphType,
     });
   }

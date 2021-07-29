@@ -1,5 +1,7 @@
 .chart-wrapper {
   overflow: hidden;
+  width: 100%;
+  margin: 10px;
 }
 
 #chartContainer {

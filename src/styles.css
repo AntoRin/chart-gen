@@ -5,11 +5,10 @@ body {
   overflow-x: hidden;
   overflow-y: scroll;
   min-height: 100vh;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: azure;
 }
 
 * {
   box-sizing: border-box;
 }
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

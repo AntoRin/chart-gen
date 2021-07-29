@@ -1,24 +1,39 @@
-<div>
+<div class="chart-control-container">
   <form (ngSubmit)="createChart($event)">
-    <label for="xAxisKeys">X-Axis</label>
-    <input type="text" [(ngModel)]="xAxis" id="xAxisKeys" name="x" matInput />
+    <div class="x-input-container">
+      <app-chip-input
+        [chipList]="xAxisKeys"
+        (chipEvent)="handleInputModification($event)"
+        label="X-Axis"
+      >
+      </app-chip-input>
+    </div>
     <br />
+    <div>
+      <app-chip-input
+        [chipList]="values"
+        (chipEvent)="handleValuesModification($event)"
+        label="Values"
+      ></app-chip-input>
+    </div>
     <br />
-    <label for="dataPoints">Values</label>
-    <input
-      type="text"
-      [(ngModel)]="values"
-      id="dataPoints"
-      name="val"
-      matInput
-    />
+    <mat-form-field appearance="fill">
+      <mat-label>Chart Type</mat-label>
+      <select
+        name="graphType"
+        id="graphType"
+        matNativeControl
+        required
+        [(ngModel)]="graphType"
+      >
+        <option *ngFor="let type of allowedGraphTypes">
+          {{ type }}
+        </option>
+      </select>
+    </mat-form-field>
     <br />
-    <br />
-    <select name="graphType" id="graphType" [(ngModel)]="graphType">
-      <option *ngFor="let type of allowedGraphTypes">
-        {{ type }}
-      </option>
-    </select>
-    <button type="submit" mat-raised-button color="blue">Generate</button>
+    <button type="submit" id="submitBtn" mat-raised-button color="primary">
+      Generate
+    </button>
   </form>
 </div>

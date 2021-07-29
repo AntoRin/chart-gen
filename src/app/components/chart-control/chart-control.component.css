@@ -1,0 +1,22 @@
+.chart-control-container {
+  background-color: rgb(66, 66, 109);
+  font-size: 1.2rem;
+  color: aliceblue;
+}
+
+.chart-control-container mat-label {
+  color: white;
+}
+
+.chart-control-container option {
+  background-color: rgb(51, 50, 54);
+}
+
+#submitBtn {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  margin: 20px;
+  font-size: 1.3rem;
+}

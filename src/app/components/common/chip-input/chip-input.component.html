@@ -1,0 +1,24 @@
+<mat-form-field class="key-chip-list" appearance="fill">
+  <mat-label>{{ label }}</mat-label>
+  <mat-chip-list #matChipList>
+    <mat-chip
+      *ngFor="let key of chipList; let keyIdx = index"
+      [selectable]="false"
+      [removable]="true"
+      (removed)="removeKey(keyIdx)"
+    >
+      {{ key }}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+    <input
+      id="keyInput"
+      name="keyInput"
+      autocomplete="off"
+      matAutosize="true"
+      [matChipInputFor]="matChipList"
+      [matChipInputSeparatorKeyCodes]="[188, 13, 32]"
+      (matChipInputTokenEnd)="addNewKey()"
+      [(ngModel)]="inputField"
+    />
+  </mat-chip-list>
+</mat-form-field>

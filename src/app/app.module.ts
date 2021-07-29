@@ -9,6 +9,8 @@ import { ChartControlComponent } from "./components/chart-control/chart-control.
 import { FormsModule } from "@angular/forms";
 import {} from "@angular/platform-browser";
 import { MaterialUIModule } from "./material-ui/material-ui.module";
+import { ChipInputComponent } from './components/common/chip-input/chip-input.component';
+import { ScrollIntoViewDirective } from './directives/scroll-into-view.directive';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,8 @@ import { MaterialUIModule } from "./material-ui/material-ui.module";
     ChartComponent,
     ChartContainerDirective,
     ChartControlComponent,
+    ChipInputComponent,
+    ScrollIntoViewDirective,
   ],
   imports: [
     BrowserModule,
