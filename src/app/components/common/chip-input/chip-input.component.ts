@@ -9,7 +9,8 @@ import { ENTER, COMMA, SPACE } from "@angular/cdk/keycodes";
 export class ChipInputComponent implements OnInit {
   @Input() label: string;
   @Input() chipList: string[];
-  @Output() chipEvent: EventEmitter<string[]> = new EventEmitter<string[]>();
+  @Output() chipEvent: EventEmitter<string> = new EventEmitter<string>();
+  @Output() chipRemoveEvent: EventEmitter<number> = new EventEmitter<number>();
 
   readonly chipKeyCodes = [ENTER, COMMA, SPACE] as const;
 
@@ -25,13 +26,11 @@ export class ChipInputComponent implements OnInit {
 
   addNewKey() {
     if (!this.inputField) return;
-    this.chipList.push(this.inputField);
+    this.chipEvent.emit(this.inputField);
     this.inputField = "";
-    this.chipEvent.emit(this.chipList);
   }
 
   removeKey(keyIdx: number) {
-    this.chipList.splice(keyIdx, 1);
-    this.chipEvent.emit(this.chipList);
+    this.chipRemoveEvent.emit(keyIdx);
   }
 }

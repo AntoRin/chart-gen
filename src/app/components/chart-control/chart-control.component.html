@@ -4,6 +4,7 @@
       <app-chip-input
         [chipList]="xAxisKeys"
         (chipEvent)="handleInputModification($event)"
+        (chipRemoveEvent)="removeInput($event)"
         label="X-Axis"
       >
       </app-chip-input>
@@ -13,6 +14,7 @@
       <app-chip-input
         [chipList]="values"
         (chipEvent)="handleValuesModification($event)"
+        (chipRemoveEvent)="removeValue($event)"
         label="Values"
       ></app-chip-input>
     </div>

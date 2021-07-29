@@ -20,16 +20,20 @@ export class ChartControlComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  handleInputModification(newInput: string[]) {
-    this.xAxisKeys = newInput;
+  handleInputModification(newInput: string) {
+    this.xAxisKeys.push(newInput);
   }
 
-  handleValuesModification(newInput: string[]) {
-    this.values = newInput;
+  removeInput(idx: number) {
+    this.xAxisKeys.splice(idx, 1);
   }
 
-  removeKey(keyIdx: number) {
-    this.xAxisKeys.splice(keyIdx, 1);
+  handleValuesModification(newInput: string) {
+    this.values.push(newInput);
+  }
+
+  removeValue(keyIdx: number) {
+    this.values.splice(keyIdx, 1);
   }
 
   createChart(_: any): void {
