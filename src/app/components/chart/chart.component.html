@@ -4,10 +4,52 @@
   ></app-chart-control>
   <div
     id="chartContainer"
+    appChartContainer
     [chartOptions]="chartOptions"
     [init]="init"
-    appChartContainer
+    (accessContainer)="setContainer($event)"
     appScrollIntoView
     [scroll]="scroll"
   ></div>
+  <div class="download-chart" *ngIf="init">
+    <button
+      type="button"
+      mat-fab
+      color="primary"
+      matTooltip
+      matTooltipPosition="before"
+      (click)="downloadCanvas()"
+    >
+      <mat-icon>download</mat-icon>
+    </button>
+  </div>
+  <div class="download-options-backdrop" *ngIf="showUserConfirmDialog">
+    <div class="download-modal">
+      <mat-card>
+        <mat-card-title> Download your chart </mat-card-title>
+        <mat-card-content>
+          <h3>Name of the Chart</h3>
+          <mat-form-field>
+            <input
+              #fileName
+              type="text"
+              matInput
+              [value]="chartOptions.title"
+            />
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions>
+          <button
+            mat-raised-button
+            (click)="handleUserActionOnDownload(true, fileName.value)"
+          >
+            Confirm
+          </button>
+          <button mat-raised-button (click)="handleUserActionOnDownload(false)">
+            Cancel
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
 </div>

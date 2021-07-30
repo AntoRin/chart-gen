@@ -19,6 +19,7 @@ export class ScrollIntoViewDirective implements OnChanges, OnDestroy {
   ngOnChanges(): void {
     if (!this.scroll) return;
     const element: HTMLElement = this._elementRef.nativeElement;
+    element.style.scrollBehavior = "smooth";
     element.scrollIntoView();
   }
 

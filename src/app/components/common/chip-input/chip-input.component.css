@@ -2,7 +2,7 @@ mat-label {
   color: white;
 }
 
-#keyInput {
+.chip-value-input-field {
   width: 100vw;
 }
 

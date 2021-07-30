@@ -1,4 +1,12 @@
-import { Directive, ElementRef, Input, OnChanges, OnInit } from "@angular/core";
+import {
+  Directive,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+} from "@angular/core";
 import * as echart from "echarts";
 import { ChartOptions } from "../interfaces/ChartOptions";
 
@@ -8,15 +16,19 @@ import { ChartOptions } from "../interfaces/ChartOptions";
 export class ChartContainerDirective implements OnInit, OnChanges {
   @Input() chartOptions: ChartOptions = {} as ChartOptions;
   @Input() init: boolean = false;
+  @Output() accessContainer: EventEmitter<HTMLDivElement> =
+    new EventEmitter<HTMLDivElement>();
 
-  public containerElement!: HTMLDivElement;
+  public containerElement: HTMLDivElement;
   public chartInstance: echart.ECharts | undefined;
 
-  constructor(private _elementRef: ElementRef) {}
-
-  ngOnInit(): void {
+  constructor(private _elementRef: ElementRef) {
     const element: HTMLDivElement = this._elementRef.nativeElement;
     this.containerElement = element;
+  }
+
+  ngOnInit(): void {
+    this.accessContainer.emit(this.containerElement);
   }
 
   ngOnChanges() {
