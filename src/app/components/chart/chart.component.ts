@@ -8,16 +8,22 @@ import { ChartOptions } from "../../interfaces/ChartOptions";
   styleUrls: ["./chart.component.css"],
 })
 export class ChartComponent implements OnInit, OnDestroy {
-  public chartOptions: ChartOptions = {} as ChartOptions;
-  public init: boolean = false;
-  public scroll: string | null = null;
-  public chartContainerRef: HTMLDivElement | null = null;
-  public showUserConfirmDialog: boolean = false;
-  public userActionSubject: Subject<any>;
-  private _subscriptionRef: Subscription | null = null;
+  public chartOptions: ChartOptions;
+  public init: boolean;
+  public showUserConfirmDialog: boolean;
+  public scrollSignal: Subject<any>;
+  private _chartContainerRef: HTMLDivElement | null;
+  private _userActionSubject: Subject<any>;
+  private _subscriptionRef: Subscription | null;
 
   public constructor() {
-    this.userActionSubject = new Subject<any>();
+    this.chartOptions = {} as ChartOptions;
+    this.init = false;
+    this._chartContainerRef = null;
+    this.showUserConfirmDialog = false;
+    this.scrollSignal = new Subject<any>();
+    this._userActionSubject = new Subject<any>();
+    this._subscriptionRef = null;
   }
 
   public ngOnInit(): void {}
@@ -25,26 +31,24 @@ export class ChartComponent implements OnInit, OnDestroy {
   handleChartCreation(options: ChartOptions) {
     this.chartOptions = options;
     this.init = true;
-    this.scroll =
-      Math.floor(Math.random() * 99999 + 1) +
-      btoa(String(Math.floor(Math.random() * 99999 + 1)));
+    this.scrollSignal.next();
   }
 
   setContainer(container: HTMLDivElement) {
-    this.chartContainerRef = container;
+    this._chartContainerRef = container;
   }
 
   downloadCanvas() {
-    if (!this.chartContainerRef) return;
+    if (!this._chartContainerRef) return;
 
     const canvas: HTMLCanvasElement | null =
-      this.chartContainerRef.querySelector("canvas");
+      this._chartContainerRef.querySelector("canvas");
 
     if (!canvas) return;
 
     this.showUserConfirmDialog = true;
 
-    this._subscriptionRef = this.userActionSubject
+    this._subscriptionRef = this._userActionSubject
       .asObservable()
       .subscribe((action: any) => {
         if (action.confirm) {
@@ -64,22 +68,20 @@ export class ChartComponent implements OnInit, OnDestroy {
             "image/png",
             1
           );
-        } else {
-          this.showUserConfirmDialog = false;
         }
+        this.showUserConfirmDialog = false;
 
         this._subscriptionRef?.unsubscribe();
       });
   }
 
   handleUserActionOnDownload(confirm: boolean, fileName: string | null = null) {
-    this.userActionSubject.next({ confirm, fileName });
+    this._userActionSubject.next({ confirm, fileName });
     this.showUserConfirmDialog = false;
   }
 
   ngOnDestroy(): void {
     this.init = false;
-    this.scroll = null;
     this._subscriptionRef?.unsubscribe();
   }
 }

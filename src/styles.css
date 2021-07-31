@@ -3,7 +3,6 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  overflow-y: scroll;
   min-height: 100vh;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: azure;

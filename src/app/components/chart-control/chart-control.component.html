@@ -21,16 +21,24 @@
         label="X-Axis"
       >
       </app-chip-input>
+      <mat-button-toggle-group color="secondary" [(value)]="xAxisType">
+        <mat-button-toggle value="value">Value</mat-button-toggle>
+        <mat-button-toggle value="category">Category</mat-button-toggle>
+      </mat-button-toggle-group>
     </div>
     <br />
     <div class="input-container">
       <app-chip-input
         [includeBtn]="true"
-        [chipList]="values"
+        [chipList]="yAxisKeys"
         (chipEvent)="handleValuesModification($event)"
         (chipRemoveEvent)="removeValue($event)"
-        label="Values"
+        label="Y-Axis"
       ></app-chip-input>
+      <mat-button-toggle-group [(value)]="yAxisType">
+        <mat-button-toggle value="value">Value</mat-button-toggle>
+        <mat-button-toggle value="category">Category</mat-button-toggle>
+      </mat-button-toggle-group>
     </div>
     <br />
     <mat-form-field appearance="fill">

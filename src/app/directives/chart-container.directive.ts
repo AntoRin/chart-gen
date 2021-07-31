@@ -39,19 +39,38 @@ export class ChartContainerDirective implements OnInit, OnChanges {
       this.chartInstance = echart.init(this.containerElement);
     else this.chartInstance.clear();
 
+    let data: any[] = [];
+
+    if (
+      this.chartOptions.xAxisType === "value" &&
+      this.chartOptions.yAxisType === "value"
+    ) {
+      this.chartOptions.xAxisKeys.forEach((x, i) => {
+        data.push([x, this.chartOptions.yAxisKeys[i]]);
+      });
+    } else {
+      data =
+        this.chartOptions.xAxisType === "value"
+          ? this.chartOptions.xAxisKeys
+          : this.chartOptions.yAxisKeys;
+    }
+
     this.chartInstance.setOption({
       title: {
         text: this.chartOptions.title || "Chart",
       },
       xAxis: {
+        type: this.chartOptions.xAxisType,
         data: this.chartOptions.xAxisKeys,
       },
-      yAxis: {},
+      yAxis: {
+        type: this.chartOptions.yAxisType,
+      },
       series: [
         {
-          name: "Test",
+          name: "",
           type: this.chartOptions.type,
-          data: this.chartOptions.values,
+          data,
         },
       ],
     });

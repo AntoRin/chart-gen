@@ -1,6 +1,10 @@
+import { AxisType, GraphType } from "../types";
+
 export interface ChartOptions {
   title?: string;
-  xAxisKeys: string[];
-  values: number[];
-  type: "bar" | "line" | "scatter";
+  xAxisKeys: string[] | number[];
+  xAxisType: AxisType;
+  type: GraphType;
+  yAxisKeys: string[] | number[];
+  yAxisType: AxisType;
 }

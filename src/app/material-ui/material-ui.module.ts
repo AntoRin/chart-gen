@@ -7,6 +7,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatCardModule } from "@angular/material/card";
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
 
 @NgModule({
   declarations: [],
@@ -19,6 +20,7 @@ import { MatCardModule } from "@angular/material/card";
     MatChipsModule,
     MatTooltipModule,
     MatCardModule,
+    MatButtonToggleModule,
   ],
 })
 export class MaterialUIModule {}

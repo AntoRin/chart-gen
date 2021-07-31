@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { ChartOptions } from "../../interfaces/ChartOptions";
+import { AxisType, GraphType } from "../../types";
 
 @Component({
   selector: "app-chart-control",
@@ -12,10 +13,12 @@ export class ChartControlComponent implements OnInit {
 
   public chartTitle: string = "";
   public xAxisKeys: string[] = [];
-  public values: string[] = [];
-  public graphType: ChartOptions["type"] = "bar";
+  public yAxisKeys: string[] = [];
+  public xAxisType: AxisType = "value";
+  public yAxisType: AxisType = "category";
+  public graphType: GraphType = "bar";
 
-  public allowedGraphTypes: ChartOptions["type"][] = ["bar", "line", "scatter"];
+  public allowedGraphTypes: GraphType[] = ["bar", "line", "scatter"];
 
   constructor() {}
 
@@ -30,18 +33,20 @@ export class ChartControlComponent implements OnInit {
   }
 
   handleValuesModification(newInput: string) {
-    this.values.push(newInput);
+    this.yAxisKeys.push(newInput);
   }
 
   removeValue(keyIdx: number) {
-    this.values.splice(keyIdx, 1);
+    this.yAxisKeys.splice(keyIdx, 1);
   }
 
   createChart(_: any): void {
     this.chartInit.emit({
       title: this.chartTitle,
       xAxisKeys: this.xAxisKeys,
-      values: this.values.map((val) => Number(val)),
+      xAxisType: this.xAxisType,
+      yAxisKeys: this.yAxisKeys.map((val) => Number(val)),
+      yAxisType: this.yAxisType,
       type: this.graphType,
     });
   }

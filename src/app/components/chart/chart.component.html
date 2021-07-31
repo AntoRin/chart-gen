@@ -9,7 +9,7 @@
     [init]="init"
     (accessContainer)="setContainer($event)"
     appScrollIntoView
-    [scroll]="scroll"
+    [scrollSignal]="scrollSignal"
   ></div>
   <div class="download-chart" *ngIf="init">
     <button
