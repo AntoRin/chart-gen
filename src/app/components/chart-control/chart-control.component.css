@@ -1,28 +1,28 @@
 .chart-control-container {
-  background-color: rgb(66, 66, 109);
-  font-size: 1.2rem;
-  color: aliceblue;
-  box-shadow: 0px 25px 25px rgba(0, 0, 0, 0.504);
-  margin-bottom: 20px;
+   background-color: rgb(66, 66, 109);
+   font-size: 1.2rem;
+   color: aliceblue;
+   box-shadow: 0px 25px 25px rgba(0, 0, 0, 0.504);
+   margin-bottom: 20px;
 }
 
 .chart-control-container mat-label {
-  color: white;
+   color: white;
 }
 
 .chart-control-container option {
-  background-color: rgb(51, 50, 54);
+   background-color: rgb(51, 50, 54);
 }
 
 .input-container {
-  margin: 0 15px;
+   margin: 0 15px;
 }
 
 #submitBtn {
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120px;
-  margin: 20px;
-  font-size: 1.3rem;
+   position: relative;
+   left: 50%;
+   transform: translateX(-50%);
+   width: 120px;
+   margin: 20px;
+   font-size: 1.3rem;
 }

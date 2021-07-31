@@ -1,63 +1,57 @@
 <div class="chart-control-container">
-  <form (ngSubmit)="createChart($event)">
-    <div class="input-container">
-      <mat-form-field>
-        <input
-          name="chartTitle"
-          matInput
-          autocomplete="off"
-          type="text"
-          placeholder="Name of the Chart"
-          [(ngModel)]="chartTitle"
-        />
+   <form (ngSubmit)="createChart($event)">
+      <div class="input-container">
+         <mat-form-field>
+            <input
+               name="chartTitle"
+               matInput
+               autocomplete="off"
+               type="text"
+               placeholder="Name of the Chart"
+               [(ngModel)]="chartTitle"
+            />
+         </mat-form-field>
+      </div>
+      <div class="input-container">
+         <app-chip-input
+            [includeBtn]="true"
+            [chipList]="xAxisKeys"
+            (chipEvent)="handleInputModification($event, 'x')"
+            (chipRemoveEvent)="removeInput($event, 'x')"
+            (chipModifyEvent)="modifyValue($event, 'x')"
+            label="X-Axis"
+         >
+         </app-chip-input>
+         <mat-button-toggle-group color="secondary" [(value)]="xAxisType">
+            <mat-button-toggle value="value">Value</mat-button-toggle>
+            <mat-button-toggle value="category">Category</mat-button-toggle>
+         </mat-button-toggle-group>
+      </div>
+      <br />
+      <div class="input-container">
+         <app-chip-input
+            [includeBtn]="true"
+            [chipList]="yAxisKeys"
+            (chipEvent)="handleInputModification($event, 'y')"
+            (chipRemoveEvent)="removeInput($event, 'y')"
+            (chipModifyEvent)="modifyValue($event, 'y')"
+            label="Y-Axis"
+         ></app-chip-input>
+         <mat-button-toggle-group [(value)]="yAxisType">
+            <mat-button-toggle value="value">Value</mat-button-toggle>
+            <mat-button-toggle value="category">Category</mat-button-toggle>
+         </mat-button-toggle-group>
+      </div>
+      <br />
+      <mat-form-field appearance="fill">
+         <mat-label>Chart Type</mat-label>
+         <select name="graphType" id="graphType" matNativeControl required [(ngModel)]="graphType">
+            <option *ngFor="let type of allowedGraphTypes">
+               {{ type }}
+            </option>
+         </select>
       </mat-form-field>
-    </div>
-    <div class="input-container">
-      <app-chip-input
-        [includeBtn]="true"
-        [chipList]="xAxisKeys"
-        (chipEvent)="handleInputModification($event)"
-        (chipRemoveEvent)="removeInput($event)"
-        label="X-Axis"
-      >
-      </app-chip-input>
-      <mat-button-toggle-group color="secondary" [(value)]="xAxisType">
-        <mat-button-toggle value="value">Value</mat-button-toggle>
-        <mat-button-toggle value="category">Category</mat-button-toggle>
-      </mat-button-toggle-group>
-    </div>
-    <br />
-    <div class="input-container">
-      <app-chip-input
-        [includeBtn]="true"
-        [chipList]="yAxisKeys"
-        (chipEvent)="handleValuesModification($event)"
-        (chipRemoveEvent)="removeValue($event)"
-        label="Y-Axis"
-      ></app-chip-input>
-      <mat-button-toggle-group [(value)]="yAxisType">
-        <mat-button-toggle value="value">Value</mat-button-toggle>
-        <mat-button-toggle value="category">Category</mat-button-toggle>
-      </mat-button-toggle-group>
-    </div>
-    <br />
-    <mat-form-field appearance="fill">
-      <mat-label>Chart Type</mat-label>
-      <select
-        name="graphType"
-        id="graphType"
-        matNativeControl
-        required
-        [(ngModel)]="graphType"
-      >
-        <option *ngFor="let type of allowedGraphTypes">
-          {{ type }}
-        </option>
-      </select>
-    </mat-form-field>
-    <br />
-    <button type="submit" id="submitBtn" mat-raised-button color="primary">
-      Generate
-    </button>
-  </form>
+      <br />
+      <button type="submit" id="submitBtn" mat-raised-button color="primary">Generate</button>
+   </form>
 </div>

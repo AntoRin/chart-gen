@@ -8,19 +8,21 @@ import { MatChipsModule } from "@angular/material/chips";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatCardModule } from "@angular/material/card";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
+import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
 
 @NgModule({
-  declarations: [],
-  imports: [CommonModule],
-  exports: [
-    MatButtonModule,
-    MatInputModule,
-    MatSelectModule,
-    MatIconModule,
-    MatChipsModule,
-    MatTooltipModule,
-    MatCardModule,
-    MatButtonToggleModule,
-  ],
+   declarations: [],
+   imports: [CommonModule],
+   exports: [
+      MatButtonModule,
+      MatInputModule,
+      MatSelectModule,
+      MatIconModule,
+      MatChipsModule,
+      MatTooltipModule,
+      MatCardModule,
+      MatButtonToggleModule,
+      MatBottomSheetModule,
+   ],
 })
 export class MaterialUIModule {}

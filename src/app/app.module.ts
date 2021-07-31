@@ -9,27 +9,24 @@ import { ChartControlComponent } from "./components/chart-control/chart-control.
 import { FormsModule } from "@angular/forms";
 import {} from "@angular/platform-browser";
 import { MaterialUIModule } from "./material-ui/material-ui.module";
-import { ChipInputComponent } from './components/common/chip-input/chip-input.component';
-import { ScrollIntoViewDirective } from './directives/scroll-into-view.directive';
-import { HeaderComponent } from './components/common/header/header.component';
+import { ChipInputComponent } from "./components/common/chip-input/chip-input.component";
+import { ScrollIntoViewDirective } from "./directives/scroll-into-view.directive";
+import { HeaderComponent } from "./components/common/header/header.component";
+import { ChipInputEditorComponent } from "./components/common/chip-input/chip-input-editor.component";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ChartComponent,
-    ChartContainerDirective,
-    ChartControlComponent,
-    ChipInputComponent,
-    ScrollIntoViewDirective,
-    HeaderComponent,
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    MaterialUIModule,
-  ],
-  providers: [],
-  bootstrap: [AppComponent],
+   declarations: [
+      AppComponent,
+      ChartComponent,
+      ChartContainerDirective,
+      ChartControlComponent,
+      ChipInputComponent,
+      ScrollIntoViewDirective,
+      HeaderComponent,
+      ChipInputEditorComponent,
+   ],
+   imports: [BrowserModule, FormsModule, BrowserAnimationsModule, MaterialUIModule],
+   providers: [],
+   bootstrap: [AppComponent],
 })
 export class AppModule {}
