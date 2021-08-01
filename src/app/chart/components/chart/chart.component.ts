@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subject, Subscription } from "rxjs";
-import { ChartOptions } from "../../interfaces/ChartOptions";
+import { ChartOptions } from "../../../interfaces/ChartOptions";
 
 @Component({
    selector: "app-chart",

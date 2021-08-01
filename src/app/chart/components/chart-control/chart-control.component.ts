@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
-import { ChartOptions } from "../../interfaces/ChartOptions";
-import { AxisType, GraphType } from "../../types";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { ChartOptions } from "../../../interfaces/ChartOptions";
+import { AxisType, GraphType } from "../../../types";
 
 @Component({
    selector: "app-chart-control",
@@ -13,13 +14,13 @@ export class ChartControlComponent implements OnInit {
    public chartTitle: string = "";
    public xAxisKeys: string[] = [];
    public yAxisKeys: string[] = [];
-   public xAxisType: AxisType = "value";
-   public yAxisType: AxisType = "category";
+   public xAxisType: AxisType = "category";
+   public yAxisType: AxisType = "value";
    public graphType: GraphType = "bar";
 
    public allowedGraphTypes: GraphType[] = ["bar", "line", "scatter"];
 
-   constructor() {}
+   constructor(private _snackBar: MatSnackBar) {}
 
    ngOnInit(): void {}
 
@@ -37,6 +38,22 @@ export class ChartControlComponent implements OnInit {
    }
 
    createChart(_: any): void {
+      if (this.xAxisType === "category" && this.yAxisType === "category") {
+         this._snackBar.open("Both the axes cannot be categories - one must be a value", "close", {
+            panelClass: "snackbar-control",
+            duration: 5000,
+         });
+         return;
+      }
+
+      if (!this.xAxisKeys.length || !this.yAxisKeys.length) {
+         this._snackBar.open("Axis values cannot be empty", "close", {
+            panelClass: "snackbar-control",
+            duration: 5000,
+         });
+         return;
+      }
+
       this.chartInit.emit({
          title: this.chartTitle,
          xAxisKeys: this.xAxisKeys,

@@ -9,6 +9,8 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatCardModule } from "@angular/material/card";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatToolbarModule } from "@angular/material/toolbar";
 
 @NgModule({
    declarations: [],
@@ -23,6 +25,8 @@ import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
       MatCardModule,
       MatButtonToggleModule,
       MatBottomSheetModule,
+      MatSnackBarModule,
+      MatToolbarModule,
    ],
 })
 export class MaterialUIModule {}

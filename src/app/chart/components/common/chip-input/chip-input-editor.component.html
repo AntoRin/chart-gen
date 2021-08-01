@@ -1,7 +1,8 @@
 <div class="edit-container">
    <mat-form-field>
       <mat-label>Modify</mat-label>
-      <input type="text" autocomplete="off" matInput [(ngModel)]="newValue" />
+      <input type="text" autocomplete="off" (blur)="checkError()" matInput [(ngModel)]="newValue" />
    </mat-form-field>
+   <mat-error *ngIf="error">Enter updated value</mat-error>
    <button mat-raised-button color="primary" (click)="editChipValue()">Save</button>
 </div>

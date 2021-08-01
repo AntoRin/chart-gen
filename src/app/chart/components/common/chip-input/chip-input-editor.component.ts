@@ -7,13 +7,19 @@ import { MatBottomSheetRef } from "@angular/material/bottom-sheet";
    styleUrls: ["./chip-input-editor.component.css"],
 })
 export class ChipInputEditorComponent implements OnInit {
-   public newValue: string | number = "";
+   public newValue: string = "";
+   public error: boolean = false;
 
    constructor(private _bottomSheetRef: MatBottomSheetRef) {}
 
    ngOnInit(): void {}
 
-   editChipValue() {
+   checkError() {
+      this.error = !this.newValue;
+   }
+
+   editChipValue(): void {
+      if (this.error) return;
       this._bottomSheetRef.dismiss(this.newValue);
    }
 }

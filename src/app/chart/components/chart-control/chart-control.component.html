@@ -12,6 +12,15 @@
             />
          </mat-form-field>
       </div>
+      <mat-form-field appearance="fill">
+         <mat-label>Chart Type</mat-label>
+         <select name="graphType" id="graphType" matNativeControl [(ngModel)]="graphType">
+            <option *ngFor="let type of allowedGraphTypes">
+               {{ type }}
+            </option>
+         </select>
+      </mat-form-field>
+      <br />
       <div class="input-container">
          <app-chip-input
             [includeBtn]="true"
@@ -23,8 +32,8 @@
          >
          </app-chip-input>
          <mat-button-toggle-group color="secondary" [(value)]="xAxisType">
-            <mat-button-toggle value="value">Value</mat-button-toggle>
-            <mat-button-toggle value="category">Category</mat-button-toggle>
+            <mat-button-toggle id="x-axis-btn1" value="value">Value</mat-button-toggle>
+            <mat-button-toggle id="x-axis-btn2" value="category">Category</mat-button-toggle>
          </mat-button-toggle-group>
       </div>
       <br />
@@ -38,19 +47,10 @@
             label="Y-Axis"
          ></app-chip-input>
          <mat-button-toggle-group [(value)]="yAxisType">
-            <mat-button-toggle value="value">Value</mat-button-toggle>
-            <mat-button-toggle value="category">Category</mat-button-toggle>
+            <mat-button-toggle id="y-axis-btn1" value="value">Value</mat-button-toggle>
+            <mat-button-toggle id="y-axis-btn2" value="category">Category</mat-button-toggle>
          </mat-button-toggle-group>
       </div>
-      <br />
-      <mat-form-field appearance="fill">
-         <mat-label>Chart Type</mat-label>
-         <select name="graphType" id="graphType" matNativeControl required [(ngModel)]="graphType">
-            <option *ngFor="let type of allowedGraphTypes">
-               {{ type }}
-            </option>
-         </select>
-      </mat-form-field>
       <br />
       <button type="submit" id="submitBtn" mat-raised-button color="primary">Generate</button>
    </form>
