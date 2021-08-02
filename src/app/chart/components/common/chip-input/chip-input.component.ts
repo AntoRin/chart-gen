@@ -10,8 +10,8 @@ import { Subscription } from "rxjs";
    styleUrls: ["./chip-input.component.css"],
 })
 export class ChipInputComponent implements OnInit {
-   @Input() label: string;
-   @Input() chipList: string[];
+   @Input() label: string = "";
+   @Input() chipList: string[] = [];
    @Input() includeBtn: boolean = false;
    @Output() chipEvent: EventEmitter<string> = new EventEmitter<string>();
    @Output() chipRemoveEvent: EventEmitter<number> = new EventEmitter<number>();
@@ -19,16 +19,12 @@ export class ChipInputComponent implements OnInit {
       index: number;
       value: string;
    }>();
+   @Output() chipClearFieldEvent: EventEmitter<undefined> = new EventEmitter<undefined>();
 
+   public inputField: string = "";
    public readonly chipKeyCodes = [ENTER, COMMA, SPACE] as const;
 
-   public inputField: string;
-
-   constructor(private _bottomSheet: MatBottomSheet) {
-      this.chipList = [];
-      this.inputField = "";
-      this.label = "";
-   }
+   constructor(private _bottomSheet: MatBottomSheet) {}
 
    ngOnInit(): void {}
 

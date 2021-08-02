@@ -28,6 +28,7 @@
             (chipEvent)="handleInputModification($event, 'x')"
             (chipRemoveEvent)="removeInput($event, 'x')"
             (chipModifyEvent)="modifyValue($event, 'x')"
+            (chipClearFieldEvent)="xAxisKeys = []"
             label="X-Axis"
          >
          </app-chip-input>
@@ -44,6 +45,7 @@
             (chipEvent)="handleInputModification($event, 'y')"
             (chipRemoveEvent)="removeInput($event, 'y')"
             (chipModifyEvent)="modifyValue($event, 'y')"
+            (chipClearFieldEvent)="yAxisKeys = []"
             label="Y-Axis"
          ></app-chip-input>
          <mat-button-toggle-group [(value)]="yAxisType">
@@ -52,6 +54,9 @@
          </mat-button-toggle-group>
       </div>
       <br />
-      <button type="submit" id="submitBtn" mat-raised-button color="primary">Generate</button>
+      <div class="control-actions">
+         <button type="button" class="action-btn-font" mat-raised-button color="primary" (click)="swapValues()">Swap values</button>
+         <button type="submit" class="action-btn-font" mat-raised-button color="primary">Generate</button>
+      </div>
    </form>
 </div>

@@ -1,6 +1,6 @@
 import { Directive, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output } from "@angular/core";
 import * as echart from "echarts";
-import { ChartOptions } from "../interfaces/ChartOptions";
+import { ChartOptions } from "../../interfaces/ChartOptions";
 
 @Directive({
    selector: "[appChartContainer]",

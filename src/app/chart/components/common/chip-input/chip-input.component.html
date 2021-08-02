@@ -25,5 +25,8 @@
          />
       </mat-chip-list>
    </mat-form-field>
-   <button *ngIf="includeBtn" type="button" mat-raised-button color="primary" (click)="addNewKey(chipValueInputField)">Add</button>
+   <span class="btn-controls">
+      <button *ngIf="includeBtn" type="button" mat-raised-button color="primary" (click)="addNewKey(chipValueInputField)">Add</button>
+      <button type="button" mat-raised-button color="primary" (click)="chipClearFieldEvent.emit()">Clear</button>
+   </span>
 </div>

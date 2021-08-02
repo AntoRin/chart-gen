@@ -37,6 +37,12 @@ export class ChartControlComponent implements OnInit {
       else this.yAxisKeys[options.index] = options.value;
    }
 
+   swapValues() {
+      const temp: string[] = this.xAxisKeys;
+      this.xAxisKeys = this.yAxisKeys;
+      this.yAxisKeys = temp;
+   }
+
    createChart(_: any): void {
       if (this.xAxisType === "category" && this.yAxisType === "category") {
          this._snackBar.open("Both the axes cannot be categories - one must be a value", "close", {

@@ -28,13 +28,18 @@ mat-button-toggle {
    margin: 0;
 }
 
-#submitBtn {
-   position: relative;
-   left: 50%;
-   transform: translateX(-50%);
+.control-actions {
    width: 120px;
-   margin: 20px;
    font-size: 1.3rem;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+}
+
+.action-btn-font {
+   font-size: 1.3rem;
+   margin: 20px;
 }
 
 .snackbar-control {
