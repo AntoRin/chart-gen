@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { ENTER, COMMA, SPACE } from "@angular/cdk/keycodes";
 import { MatBottomSheet } from "@angular/material/bottom-sheet";
-import { ChipInputEditorComponent } from "./chip-input-editor.component";
 import { Subscription } from "rxjs";
+import { ChipInputEditorComponent } from "./chip-input-editor.component";
 
 @Component({
    selector: "app-chip-input",

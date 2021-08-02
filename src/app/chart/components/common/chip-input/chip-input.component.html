@@ -4,6 +4,7 @@
       <mat-chip-list #matChipList>
          <mat-chip
             *ngFor="let key of chipList; let keyIdx = index"
+            class="chip"
             [selectable]="false"
             [removable]="true"
             (removed)="removeKey(keyIdx)"

@@ -7,4 +7,6 @@ export interface ChartOptions {
    type: GraphType;
    yAxisKeys: string[];
    yAxisType: AxisType;
+   enableZoom: boolean;
+   backgroundColor: string | undefined;
 }

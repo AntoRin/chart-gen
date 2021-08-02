@@ -1,7 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { MatSlideToggleChange } from "@angular/material/slide-toggle";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ChartOptions } from "../../../interfaces/ChartOptions";
-import { AxisType, GraphType } from "../../../types";
+import { AxisType, GraphType, SettingsTabType } from "../../../types";
 
 @Component({
    selector: "app-chart-control",
@@ -11,12 +12,15 @@ import { AxisType, GraphType } from "../../../types";
 export class ChartControlComponent implements OnInit {
    @Output() public chartInit: EventEmitter<ChartOptions> = new EventEmitter<ChartOptions>();
 
+   public selectedTab: SettingsTabType = "basic";
    public chartTitle: string = "";
    public xAxisKeys: string[] = [];
    public yAxisKeys: string[] = [];
    public xAxisType: AxisType = "category";
    public yAxisType: AxisType = "value";
    public graphType: GraphType = "bar";
+   public enableZoom: boolean = false;
+   public backgroundColor: string | undefined;
 
    public allowedGraphTypes: GraphType[] = ["bar", "line", "scatter"];
 
@@ -24,8 +28,36 @@ export class ChartControlComponent implements OnInit {
 
    ngOnInit(): void {}
 
+   private _openSnackbar(message: string) {
+      this._snackBar.open(message, "close", {
+         panelClass: "snackbar-control",
+         duration: 5000,
+      });
+      return;
+   }
+
+   changeTab(tabName: SettingsTabType) {
+      this.selectedTab = tabName;
+   }
+
+   setZoom(event: MatSlideToggleChange) {
+      this.enableZoom = event.checked;
+   }
+
    handleInputModification(newInput: string, axis: "x" | "y") {
-      axis === "x" ? this.xAxisKeys.push(newInput) : this.yAxisKeys.push(newInput);
+      if (axis === "x") {
+         if (this.xAxisType === "value" && isNaN(Number(newInput))) {
+            this._openSnackbar("Axis initialized as value but is not provided a number");
+            return;
+         }
+         this.xAxisKeys.push(newInput);
+      } else if (axis === "y") {
+         if (this.yAxisType === "value" && isNaN(Number(newInput))) {
+            this._openSnackbar("Axis initialized as value but is not provided a number");
+            return;
+         }
+         this.yAxisKeys.push(newInput);
+      }
    }
 
    removeInput(idx: number, axis: "x" | "y") {
@@ -33,6 +65,8 @@ export class ChartControlComponent implements OnInit {
    }
 
    modifyValue(options: { index: number; value: string }, axis: "x" | "y") {
+      if (!options.value) return;
+
       if (axis === "x") this.xAxisKeys[options.index] = options.value;
       else this.yAxisKeys[options.index] = options.value;
    }
@@ -45,18 +79,12 @@ export class ChartControlComponent implements OnInit {
 
    createChart(_: any): void {
       if (this.xAxisType === "category" && this.yAxisType === "category") {
-         this._snackBar.open("Both the axes cannot be categories - one must be a value", "close", {
-            panelClass: "snackbar-control",
-            duration: 5000,
-         });
+         this._openSnackbar("Both the axes cannot be categories - one must be a value");
          return;
       }
 
       if (!this.xAxisKeys.length || !this.yAxisKeys.length) {
-         this._snackBar.open("Axis values cannot be empty", "close", {
-            panelClass: "snackbar-control",
-            duration: 5000,
-         });
+         this._openSnackbar("Axis values cannot be empty");
          return;
       }
 
@@ -67,6 +95,8 @@ export class ChartControlComponent implements OnInit {
          yAxisKeys: this.yAxisKeys,
          yAxisType: this.yAxisType,
          type: this.graphType,
+         enableZoom: this.enableZoom,
+         backgroundColor: this.backgroundColor,
       });
    }
 }

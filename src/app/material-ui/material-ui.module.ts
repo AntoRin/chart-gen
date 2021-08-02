@@ -11,6 +11,9 @@ import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatTabsModule } from "@angular/material/tabs";
+import { MatListModule } from "@angular/material/list";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 
 @NgModule({
    declarations: [],
@@ -27,6 +30,9 @@ import { MatToolbarModule } from "@angular/material/toolbar";
       MatBottomSheetModule,
       MatSnackBarModule,
       MatToolbarModule,
+      MatTabsModule,
+      MatListModule,
+      MatSlideToggleModule,
    ],
 })
 export class MaterialUIModule {}

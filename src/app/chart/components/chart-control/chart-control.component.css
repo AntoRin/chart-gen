@@ -4,18 +4,43 @@
    color: aliceblue;
    box-shadow: 0px 25px 25px rgba(0, 0, 0, 0.504);
    margin-bottom: 20px;
+   display: grid;
+   grid-template-columns: 1fr 4fr;
+   min-height: 70vh;
 }
 
-.chart-control-container mat-label {
+.tab-nav {
+   border-right: 1px solid #fff;
+   box-shadow: 25px 0 25px rgba(0, 0, 0, 0.175);
+   background-color: rgb(55, 55, 107);
+}
+
+.tab-nav mat-list-item {
+   color: #fff;
+   font-size: 1.2rem;
+   background-color: rgb(88, 88, 136);
+   box-shadow: 0 10px 5px rgba(17, 17, 17, 0.116);
+}
+
+.settings-form {
+   padding: 0 10px;
+   position: relative;
+}
+
+.settings-form mat-label {
    color: white;
 }
 
-.chart-control-container option {
+.settings-form option {
    background-color: rgb(51, 50, 54);
 }
 
 .input-container {
    margin: 0 15px;
+}
+
+.full-width {
+   width: 100%;
 }
 
 mat-button-toggle-group {
@@ -35,6 +60,8 @@ mat-button-toggle {
    justify-content: center;
    align-items: center;
    width: 100%;
+   position: absolute;
+   bottom: 0;
 }
 
 .action-btn-font {

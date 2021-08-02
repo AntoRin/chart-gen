@@ -1,59 +1,80 @@
 <div class="chart-control-container">
-   <form (ngSubmit)="createChart($event)">
-      <div class="input-container">
-         <mat-form-field>
-            <input
-               name="chartTitle"
-               matInput
-               autocomplete="off"
-               type="text"
-               placeholder="Name of the Chart"
-               [(ngModel)]="chartTitle"
-            />
-         </mat-form-field>
-      </div>
-      <mat-form-field appearance="fill">
-         <mat-label>Chart Type</mat-label>
-         <select name="graphType" id="graphType" matNativeControl [(ngModel)]="graphType">
-            <option *ngFor="let type of allowedGraphTypes">
-               {{ type }}
-            </option>
-         </select>
-      </mat-form-field>
-      <br />
-      <div class="input-container">
-         <app-chip-input
-            [includeBtn]="true"
-            [chipList]="xAxisKeys"
-            (chipEvent)="handleInputModification($event, 'x')"
-            (chipRemoveEvent)="removeInput($event, 'x')"
-            (chipModifyEvent)="modifyValue($event, 'x')"
-            (chipClearFieldEvent)="xAxisKeys = []"
-            label="X-Axis"
+   <div class="tab-nav">
+      <mat-nav-list>
+         <mat-list-item [ngStyle]="selectedTab === 'basic' ? { border: '1px solid #fff' } : {}" (click)="changeTab('basic')"
+            >Basic Settings</mat-list-item
          >
-         </app-chip-input>
-         <mat-button-toggle-group color="secondary" [(value)]="xAxisType">
-            <mat-button-toggle id="x-axis-btn1" value="value">Value</mat-button-toggle>
-            <mat-button-toggle id="x-axis-btn2" value="category">Category</mat-button-toggle>
-         </mat-button-toggle-group>
-      </div>
-      <br />
-      <div class="input-container">
-         <app-chip-input
-            [includeBtn]="true"
-            [chipList]="yAxisKeys"
-            (chipEvent)="handleInputModification($event, 'y')"
-            (chipRemoveEvent)="removeInput($event, 'y')"
-            (chipModifyEvent)="modifyValue($event, 'y')"
-            (chipClearFieldEvent)="yAxisKeys = []"
-            label="Y-Axis"
-         ></app-chip-input>
-         <mat-button-toggle-group [(value)]="yAxisType">
-            <mat-button-toggle id="y-axis-btn1" value="value">Value</mat-button-toggle>
-            <mat-button-toggle id="y-axis-btn2" value="category">Category</mat-button-toggle>
-         </mat-button-toggle-group>
-      </div>
-      <br />
+         <mat-list-item [ngStyle]="selectedTab === 'initialize' ? { border: '1px solid #fff' } : {}" (click)="changeTab('initialize')"
+            >Initialize Chart</mat-list-item
+         >
+      </mat-nav-list>
+   </div>
+   <form class="settings-form" (ngSubmit)="createChart($event)">
+      <section *ngIf="selectedTab === 'basic'">
+         <div class="input-container">
+            <mat-form-field class="full-width">
+               <input
+                  name="chartTitle"
+                  matInput
+                  autocomplete="off"
+                  type="text"
+                  placeholder="Name of the Chart"
+                  [(ngModel)]="chartTitle"
+               />
+            </mat-form-field>
+         </div>
+         <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Chart Type</mat-label>
+            <select name="graphType" id="graphType" matNativeControl [(ngModel)]="graphType">
+               <option *ngFor="let type of allowedGraphTypes">
+                  {{ type }}
+               </option>
+            </select>
+         </mat-form-field>
+         <br />
+         <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Background Color</mat-label>
+            <input matInput type="text" name="backgroundColor" [(ngModel)]="backgroundColor" />
+         </mat-form-field>
+         <br />
+         <mat-slide-toggle labelPosition="before" [checked]="enableZoom" (change)="setZoom($event)">Enable Zoom</mat-slide-toggle>
+         <br />
+      </section>
+      <section *ngIf="selectedTab === 'initialize'">
+         <div class="input-container">
+            <app-chip-input
+               [includeBtn]="true"
+               [chipList]="xAxisKeys"
+               (chipEvent)="handleInputModification($event, 'x')"
+               (chipRemoveEvent)="removeInput($event, 'x')"
+               (chipModifyEvent)="modifyValue($event, 'x')"
+               (chipClearFieldEvent)="xAxisKeys = []"
+               label="X-Axis"
+            >
+            </app-chip-input>
+            <mat-button-toggle-group color="secondary" [(value)]="xAxisType">
+               <mat-button-toggle id="x-axis-btn1" value="value">Value</mat-button-toggle>
+               <mat-button-toggle id="x-axis-btn2" value="category">Category</mat-button-toggle>
+            </mat-button-toggle-group>
+         </div>
+         <br />
+         <div class="input-container">
+            <app-chip-input
+               [includeBtn]="true"
+               [chipList]="yAxisKeys"
+               (chipEvent)="handleInputModification($event, 'y')"
+               (chipRemoveEvent)="removeInput($event, 'y')"
+               (chipModifyEvent)="modifyValue($event, 'y')"
+               (chipClearFieldEvent)="yAxisKeys = []"
+               label="Y-Axis"
+            ></app-chip-input>
+            <mat-button-toggle-group [(value)]="yAxisType">
+               <mat-button-toggle id="y-axis-btn1" value="value">Value</mat-button-toggle>
+               <mat-button-toggle id="y-axis-btn2" value="category">Category</mat-button-toggle>
+            </mat-button-toggle-group>
+         </div>
+         <br />
+      </section>
       <div class="control-actions">
          <button type="button" class="action-btn-font" mat-raised-button color="primary" (click)="swapValues()">Swap values</button>
          <button type="submit" class="action-btn-font" mat-raised-button color="primary">Generate</button>

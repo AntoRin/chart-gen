@@ -13,3 +13,8 @@ mat-label {
 .btn-controls button {
    margin: 0 10px 0 0;
 }
+
+.chip {
+   font-size: 1.1rem;
+   border-radius: 0;
+}

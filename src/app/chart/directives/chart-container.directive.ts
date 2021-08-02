@@ -47,6 +47,13 @@ export class ChartContainerDirective implements OnInit, OnChanges {
          title: {
             text: this.chartOptions.title || "Chart",
          },
+         dataZoom: [
+            {
+               type: "inside",
+               disabled: !this.chartOptions.enableZoom,
+            },
+         ],
+         backgroundColor: this.chartOptions.backgroundColor,
          xAxis: {
             type: this.chartOptions.xAxisType,
             data: this.chartOptions.xAxisKeys,
