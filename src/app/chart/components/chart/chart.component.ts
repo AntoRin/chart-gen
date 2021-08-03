@@ -1,41 +1,68 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subject, Subscription } from "rxjs";
 import { ChartOptions } from "../../../interfaces/ChartOptions";
+import { DatasetsType } from "../../../types";
 
 @Component({
-   selector: "app-chart",
    templateUrl: "./chart.component.html",
    styleUrls: ["./chart.component.css"],
 })
 export class ChartComponent implements OnInit, OnDestroy {
-   public chartOptions: ChartOptions;
-   public init: boolean;
-   public showUserConfirmDialog: boolean;
-   public scrollSignal: Subject<any>;
-   private _chartContainerRef: HTMLDivElement | null;
-   private _userActionSubject: Subject<any>;
-   private _subscriptionRef: Subscription | null;
+   private _chartContainerRef: HTMLDivElement | null = null;
+   private _userActionSubject: Subject<any> = new Subject<any>();
+   private _subscriptionRef: Subscription | null = null;
+   public init: boolean = false;
+   public showUserConfirmDialog: boolean = false;
+   public scrollSignal: Subject<any> = new Subject<any>();
+   public chartOptions: ChartOptions = {} as ChartOptions;
+   public datasets: DatasetsType[] = [];
+   public currentIndex: number = 0;
 
    public constructor() {
-      this.chartOptions = {} as ChartOptions;
-      this.init = false;
-      this._chartContainerRef = null;
-      this.showUserConfirmDialog = false;
-      this.scrollSignal = new Subject<any>();
-      this._userActionSubject = new Subject<any>();
-      this._subscriptionRef = null;
+      this.createNewDatasetTab();
    }
 
    public ngOnInit(): void {}
+
+   private _getDefaultChartOptions(): ChartOptions {
+      return {
+         backgroundColor: undefined,
+         enableZoom: false,
+         type: "bar",
+         xAxisKeys: [],
+         yAxisKeys: [],
+         xAxisType: "category",
+         yAxisType: "value",
+         title: "",
+      };
+   }
+
+   createNewDatasetTab(): void {
+      const newIdx: number = this.datasets.length;
+      this.datasets.push({
+         chartOptions: this._getDefaultChartOptions(),
+         index: newIdx,
+         datasetName: "Chart-Tab-" + newIdx,
+      });
+      this.currentIndex = newIdx;
+   }
+
+   setDatasetTab(idx: number) {
+      this.currentIndex = idx;
+   }
+
+   modifyDataset(dataset: DatasetsType): void {
+      this.datasets[dataset.index] = dataset;
+   }
+
+   setContainer(container: HTMLDivElement) {
+      this._chartContainerRef = container;
+   }
 
    handleChartCreation(options: ChartOptions) {
       this.chartOptions = options;
       this.init = true;
       this.scrollSignal.next();
-   }
-
-   setContainer(container: HTMLDivElement) {
-      this._chartContainerRef = container;
    }
 
    downloadCanvas() {

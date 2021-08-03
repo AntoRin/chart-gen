@@ -10,9 +10,10 @@ import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialUIModule } from "../material-ui/material-ui.module";
+import { ChartRouterModule } from "./chart-router.module";
 
 @NgModule({
-   imports: [CommonModule, BrowserModule, FormsModule, BrowserAnimationsModule, MaterialUIModule],
+   imports: [ChartRouterModule, CommonModule, BrowserModule, FormsModule, BrowserAnimationsModule, MaterialUIModule],
    declarations: [
       ChartComponent,
       ChartContainerDirective,
@@ -21,6 +22,6 @@ import { MaterialUIModule } from "../material-ui/material-ui.module";
       ScrollIntoViewDirective,
       ChipInputEditorComponent,
    ],
-   exports: [ChartComponent],
+   exports: [ChartRouterModule, ChartComponent],
 })
 export class ChartModule {}

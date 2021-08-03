@@ -1,16 +1,19 @@
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
 import { MatSlideToggleChange } from "@angular/material/slide-toggle";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ChartOptions } from "../../../interfaces/ChartOptions";
-import { AxisType, GraphType, SettingsTabType } from "../../../types";
+import { AxisType, DatasetsType, GraphType, SettingsTabType } from "../../../types";
 
 @Component({
    selector: "app-chart-control",
    templateUrl: "./chart-control.component.html",
    styleUrls: ["./chart-control.component.css"],
 })
-export class ChartControlComponent implements OnInit {
+export class ChartControlComponent implements OnInit, OnChanges {
+   @Input() public dataset!: DatasetsType;
+   @Input() public currentTab!: number;
    @Output() public chartInit: EventEmitter<ChartOptions> = new EventEmitter<ChartOptions>();
+   @Output() public modifiedDataset: EventEmitter<DatasetsType> = new EventEmitter<DatasetsType>();
 
    public selectedTab: SettingsTabType = "basic";
    public chartTitle: string = "";
@@ -27,6 +30,19 @@ export class ChartControlComponent implements OnInit {
    constructor(private _snackBar: MatSnackBar) {}
 
    ngOnInit(): void {}
+
+   ngOnChanges(changes: SimpleChanges): void {
+      this.xAxisKeys = this.dataset.chartOptions.xAxisKeys;
+      this.yAxisKeys = this.dataset.chartOptions.yAxisKeys;
+      this.xAxisType = this.dataset.chartOptions.xAxisType;
+      this.yAxisType = this.dataset.chartOptions.yAxisType;
+      this.graphType = this.dataset.chartOptions.type;
+      this.enableZoom = this.dataset.chartOptions.enableZoom;
+      this.backgroundColor = this.dataset.chartOptions.backgroundColor;
+
+      if (!changes.dataset.previousValue) return;
+      this.modifiedDataset.emit(changes.dataset.previousValue);
+   }
 
    private _openSnackbar(message: string) {
       this._snackBar.open(message, "close", {
@@ -85,6 +101,7 @@ export class ChartControlComponent implements OnInit {
 
       if (!this.xAxisKeys.length || !this.yAxisKeys.length) {
          this._openSnackbar("Axis values cannot be empty");
+         if (this.selectedTab !== "initialize") this.selectedTab = "initialize";
          return;
       }
 
