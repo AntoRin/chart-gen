@@ -6,7 +6,8 @@
    margin-bottom: 20px;
    display: grid;
    grid-template-columns: 1fr 4fr;
-   min-height: 70vh;
+   min-height: 80vh;
+   max-height: fit-content;
 }
 
 .tab-nav {
@@ -15,16 +16,32 @@
    background-color: rgb(55, 55, 107);
 }
 
-.tab-nav mat-list-item {
+.list-btn {
    color: #fff;
    font-size: 1.2rem;
    background-color: rgb(88, 88, 136);
    box-shadow: 0 10px 5px rgba(17, 17, 17, 0.116);
 }
 
+.list-btn:hover {
+   background-color: rgba(0, 0, 0, 0.637);
+}
+
+.list-btn:focus {
+   background-color: rgba(0, 0, 0, 0.637);
+}
+
+.list-btn-selected {
+   background-color: rgba(0, 0, 0, 0.637);
+}
+
 .settings-form {
-   padding: 0 10px;
+   padding: 5px 10px;
    position: relative;
+   height: 100%;
+   display: flex;
+   justify-content: space-between;
+   flex-direction: column;
 }
 
 .settings-form mat-label {
@@ -33,6 +50,10 @@
 
 .settings-form option {
    background-color: rgb(51, 50, 54);
+}
+
+.tab-section {
+   min-height: 90%;
 }
 
 .input-container {
@@ -56,21 +77,43 @@ mat-button-toggle {
 .control-actions {
    width: 120px;
    font-size: 1.3rem;
+   width: 100%;
    display: flex;
    justify-content: center;
    align-items: center;
-   width: 100%;
-   position: absolute;
-   bottom: 0;
 }
 
 .action-btn-font {
    font-size: 1.3rem;
-   margin: 20px;
+   margin: 10px 15px;
+   min-width: fit-content;
 }
 
 .snackbar-control {
    font-size: 1.5rem;
    width: 75%;
    color: red;
+}
+
+@media (max-width: 800px) {
+   .list-btn {
+      font-size: 1rem;
+   }
+}
+
+@media (max-width: 700px) {
+   .chart-control-container {
+      display: flex;
+      justify-content: flex-start;
+      flex-direction: column;
+   }
+
+   .settings-form {
+      flex-grow: 1;
+   }
+
+   .nav-list-container {
+      display: flex;
+      border-bottom: 2px solid #fff;
+   }
 }

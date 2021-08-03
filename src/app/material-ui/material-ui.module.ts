@@ -14,6 +14,7 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatListModule } from "@angular/material/list";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { MatDividerModule } from "@angular/material/divider";
 
 @NgModule({
    declarations: [],
@@ -33,6 +34,7 @@ import { MatSlideToggleModule } from "@angular/material/slide-toggle";
       MatTabsModule,
       MatListModule,
       MatSlideToggleModule,
+      MatDividerModule,
    ],
 })
 export class MaterialUIModule {}

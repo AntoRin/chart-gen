@@ -1,26 +1,25 @@
 <div class="chart-control-container">
    <div class="tab-nav">
-      <mat-nav-list>
-         <mat-list-item [ngStyle]="selectedTab === 'basic' ? { border: '1px solid #fff' } : {}" (click)="changeTab('basic')"
-            >Basic Settings</mat-list-item
+      <mat-nav-list class="nav-list-container">
+         <mat-list-item class="list-btn" [ngClass]="selectedTab === 'basic' ? 'list-btn-selected' : ''" (click)="changeTab('basic')">
+            Basic Settings
+         </mat-list-item>
+         <mat-divider></mat-divider>
+         <mat-list-item
+            class="list-btn"
+            [ngClass]="selectedTab === 'initialize' ? 'list-btn-selected' : ''"
+            (click)="changeTab('initialize')"
          >
-         <mat-list-item [ngStyle]="selectedTab === 'initialize' ? { border: '1px solid #fff' } : {}" (click)="changeTab('initialize')"
-            >Initialize Chart</mat-list-item
-         >
+            Initialize Chart
+         </mat-list-item>
       </mat-nav-list>
    </div>
    <form class="settings-form" (ngSubmit)="createChart($event)">
-      <section *ngIf="selectedTab === 'basic'">
+      <section *ngIf="selectedTab === 'basic'" class="tab-section">
          <div class="input-container">
             <mat-form-field class="full-width">
-               <input
-                  name="chartTitle"
-                  matInput
-                  autocomplete="off"
-                  type="text"
-                  placeholder="Name of the Chart"
-                  [(ngModel)]="chartTitle"
-               />
+               <mat-label>Name of the Chart</mat-label>
+               <input name="chartTitle" matInput autocomplete="off" type="text" [(ngModel)]="chartTitle" />
             </mat-form-field>
          </div>
          <mat-form-field appearance="fill" class="full-width">
@@ -40,7 +39,7 @@
          <mat-slide-toggle labelPosition="before" [checked]="enableZoom" (change)="setZoom($event)">Enable Zoom</mat-slide-toggle>
          <br />
       </section>
-      <section *ngIf="selectedTab === 'initialize'">
+      <section *ngIf="selectedTab === 'initialize'" class="tab-section">
          <div class="input-container">
             <app-chip-input
                [includeBtn]="true"
