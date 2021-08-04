@@ -11,12 +11,16 @@ export class ChartComponent implements OnInit, OnDestroy {
    private _chartContainerRef: HTMLDivElement | null = null;
    private _userActionSubject: Subject<any> = new Subject<any>();
    private _subscriptionRef: Subscription | null = null;
-   public init: boolean = false;
+   private _primaryIdx: number = 0;
+
    public showUserConfirmDialog: boolean = false;
    public scrollSignal: Subject<any> = new Subject<any>();
    public chartOptions: ChartOptions = {} as ChartOptions;
    public datasets: DatasetsType[] = [];
    public currentIndex: number = 0;
+   public init: boolean = false;
+   public requestSnapshotSubject: Subject<any> = new Subject<any>();
+   public chartControlsSubject: Subject<boolean> = new Subject<boolean>();
 
    public constructor() {
       this.createNewDatasetTab();
@@ -38,7 +42,10 @@ export class ChartComponent implements OnInit, OnDestroy {
    }
 
    createNewDatasetTab(): void {
-      const newIdx: number = this.datasets.length;
+      this.requestSnapshotSubject.next();
+
+      const newIdx: number = this._primaryIdx++;
+
       this.datasets.push({
          chartOptions: this._getDefaultChartOptions(),
          index: newIdx,
@@ -47,22 +54,31 @@ export class ChartComponent implements OnInit, OnDestroy {
       this.currentIndex = newIdx;
    }
 
-   setDatasetTab(idx: number) {
+   changeDatasetTab(idx: number) {
+      console.log("whaat");
+      this.requestSnapshotSubject.next();
       this.currentIndex = idx;
    }
 
+   closeDatasetTab(idx: number) {
+      console.log(idx);
+   }
+
    modifyDataset(dataset: DatasetsType): void {
+      console.log("Modifying");
       this.datasets[dataset.index] = dataset;
+      this.currentIndex = dataset.index;
    }
 
    setContainer(container: HTMLDivElement) {
       this._chartContainerRef = container;
    }
 
-   handleChartCreation(options: ChartOptions) {
-      this.chartOptions = options;
-      this.init = true;
+   handleChartCreation(dataset: DatasetsType) {
+      this.requestSnapshotSubject.next();
+      this.chartControlsSubject.next(true);
       this.scrollSignal.next();
+      this.init = true;
    }
 
    downloadCanvas() {
@@ -104,7 +120,6 @@ export class ChartComponent implements OnInit, OnDestroy {
    }
 
    ngOnDestroy(): void {
-      this.init = false;
       this._subscriptionRef?.unsubscribe();
    }
 }

@@ -1,22 +1,31 @@
 <div class="chart-wrapper">
    <div class="dataset-tabs">
-      <span class="dataset-tab-item" *ngFor="let dataset of datasets; let datasetIdx = index" (click)="setDatasetTab(datasetIdx)">{{
-         dataset.datasetName
-      }}</span>
-      <button mat-raised-button color="primary" (click)="createNewDatasetTab()">Add</button>
+      <span
+         class="dataset-tab-item"
+         *ngFor="let dataset of datasets; let datasetIdx = index"
+         [ngClass]="currentIndex === datasetIdx ? 'dataset-tab-item-active' : ''"
+         (click)="changeDatasetTab(datasetIdx)"
+         >{{ dataset?.datasetName }}
+         <button mat-icon-button (click)="closeDatasetTab(datasetIdx); $event.stopPropagation()">
+            <mat-icon style="font-size: 1rem">close</mat-icon>
+         </button>
+      </span>
+      <button mat-icon-button color="primary" (click)="createNewDatasetTab()">
+         <mat-icon style="font-size: 1.75rem; margin-bottom: 5px">add</mat-icon>
+      </button>
+      <div class="tab-color-fill"></div>
    </div>
    <app-chart-control
       [dataset]="datasets[currentIndex]"
-      [currentTab]="currentIndex"
-      (modifiedDataset)="modifyDataset($event)"
+      [requestSnapsotSubject]="requestSnapshotSubject"
+      (datasetSnapshot)="modifyDataset($event)"
       (chartInit)="handleChartCreation($event)"
    ></app-chart-control>
    <div
       id="chartContainer"
       appChartContainer
-      [chartOptions]="chartOptions"
       [datasets]="datasets"
-      [init]="init"
+      [controlSignal]="chartControlsSubject"
       (accessContainer)="setContainer($event)"
       appScrollIntoView
       [scrollSignal]="scrollSignal"

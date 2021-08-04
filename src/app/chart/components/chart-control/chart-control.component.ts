@@ -1,47 +1,58 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from "@angular/core";
 import { MatSlideToggleChange } from "@angular/material/slide-toggle";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { Subject, Subscription } from "rxjs";
 import { ChartOptions } from "../../../interfaces/ChartOptions";
-import { AxisType, DatasetsType, GraphType, SettingsTabType } from "../../../types";
+import { DatasetsType, GraphType, SettingsTabType } from "../../../types";
 
 @Component({
    selector: "app-chart-control",
    templateUrl: "./chart-control.component.html",
    styleUrls: ["./chart-control.component.css"],
 })
-export class ChartControlComponent implements OnInit, OnChanges {
+export class ChartControlComponent implements OnInit, OnChanges, OnDestroy {
    @Input() public dataset!: DatasetsType;
-   @Input() public currentTab!: number;
-   @Output() public chartInit: EventEmitter<ChartOptions> = new EventEmitter<ChartOptions>();
-   @Output() public modifiedDataset: EventEmitter<DatasetsType> = new EventEmitter<DatasetsType>();
+   @Input() public requestSnapsotSubject: Subject<any> | undefined;
+   @Output() public chartInit: EventEmitter<DatasetsType> = new EventEmitter<DatasetsType>();
+   @Output() public datasetSnapshot: EventEmitter<DatasetsType> = new EventEmitter<DatasetsType>();
 
+   private _requestSubscriptionRef: Subscription | undefined;
+
+   public currentTab: number = 0;
+   public tabName: string = "";
    public selectedTab: SettingsTabType = "basic";
-   public chartTitle: string = "";
-   public xAxisKeys: string[] = [];
-   public yAxisKeys: string[] = [];
-   public xAxisType: AxisType = "category";
-   public yAxisType: AxisType = "value";
-   public graphType: GraphType = "bar";
-   public enableZoom: boolean = false;
-   public backgroundColor: string | undefined;
 
+   public chartOptions: ChartOptions = {} as ChartOptions;
    public allowedGraphTypes: GraphType[] = ["bar", "line", "scatter"];
 
    constructor(private _snackBar: MatSnackBar) {}
 
-   ngOnInit(): void {}
+   ngOnInit(): void {
+      if (this.requestSnapsotSubject)
+         this._requestSubscriptionRef = this.requestSnapsotSubject.subscribe(() => {
+            this._emitSnapshot();
+         });
+   }
 
    ngOnChanges(changes: SimpleChanges): void {
-      this.xAxisKeys = this.dataset.chartOptions.xAxisKeys;
-      this.yAxisKeys = this.dataset.chartOptions.yAxisKeys;
-      this.xAxisType = this.dataset.chartOptions.xAxisType;
-      this.yAxisType = this.dataset.chartOptions.yAxisType;
-      this.graphType = this.dataset.chartOptions.type;
-      this.enableZoom = this.dataset.chartOptions.enableZoom;
-      this.backgroundColor = this.dataset.chartOptions.backgroundColor;
+      if (!this.dataset) return;
+      this.chartOptions = this.dataset.chartOptions;
+      this.currentTab = this.dataset.index;
+      this.tabName = this.dataset.datasetName;
+   }
 
-      if (!changes.dataset.previousValue) return;
-      this.modifiedDataset.emit(changes.dataset.previousValue);
+   private _getCurrentDataset(): DatasetsType {
+      const currentDataset: DatasetsType = {
+         index: this.currentTab,
+         datasetName: this.tabName,
+         chartOptions: this.chartOptions,
+      };
+
+      return currentDataset;
+   }
+
+   public _emitSnapshot(): void {
+      this.datasetSnapshot.emit(this._getCurrentDataset());
    }
 
    private _openSnackbar(message: string) {
@@ -57,63 +68,58 @@ export class ChartControlComponent implements OnInit, OnChanges {
    }
 
    setZoom(event: MatSlideToggleChange) {
-      this.enableZoom = event.checked;
+      this.chartOptions.enableZoom = event.checked;
    }
 
    handleInputModification(newInput: string, axis: "x" | "y") {
       if (axis === "x") {
-         if (this.xAxisType === "value" && isNaN(Number(newInput))) {
+         if (this.chartOptions.xAxisType === "value" && isNaN(Number(newInput))) {
             this._openSnackbar("Axis initialized as value but is not provided a number");
             return;
          }
-         this.xAxisKeys.push(newInput);
+         this.chartOptions.xAxisKeys.push(newInput);
       } else if (axis === "y") {
-         if (this.yAxisType === "value" && isNaN(Number(newInput))) {
+         if (this.chartOptions.yAxisType === "value" && isNaN(Number(newInput))) {
             this._openSnackbar("Axis initialized as value but is not provided a number");
             return;
          }
-         this.yAxisKeys.push(newInput);
+         this.chartOptions.yAxisKeys.push(newInput);
       }
    }
 
    removeInput(idx: number, axis: "x" | "y") {
-      axis === "x" ? this.xAxisKeys.splice(idx, 1) : this.yAxisKeys.splice(idx, 1);
+      axis === "x" ? this.chartOptions.xAxisKeys.splice(idx, 1) : this.chartOptions.yAxisKeys.splice(idx, 1);
    }
 
    modifyValue(options: { index: number; value: string }, axis: "x" | "y") {
       if (!options.value) return;
 
-      if (axis === "x") this.xAxisKeys[options.index] = options.value;
-      else this.yAxisKeys[options.index] = options.value;
+      if (axis === "x") this.chartOptions.xAxisKeys[options.index] = options.value;
+      else this.chartOptions.yAxisKeys[options.index] = options.value;
    }
 
    swapValues() {
-      const temp: string[] = this.xAxisKeys;
-      this.xAxisKeys = this.yAxisKeys;
-      this.yAxisKeys = temp;
+      const temp: string[] = [...this.chartOptions.xAxisKeys];
+      this.chartOptions.xAxisKeys = [...this.chartOptions.yAxisKeys];
+      this.chartOptions.yAxisKeys = [...temp];
    }
 
    createChart(_: any): void {
-      if (this.xAxisType === "category" && this.yAxisType === "category") {
+      if (this.chartOptions.xAxisType === "category" && this.chartOptions.yAxisType === "category") {
          this._openSnackbar("Both the axes cannot be categories - one must be a value");
          return;
       }
 
-      if (!this.xAxisKeys.length || !this.yAxisKeys.length) {
+      if (!this.chartOptions.xAxisKeys.length || !this.chartOptions.yAxisKeys.length) {
          this._openSnackbar("Axis values cannot be empty");
          if (this.selectedTab !== "initialize") this.selectedTab = "initialize";
          return;
       }
 
-      this.chartInit.emit({
-         title: this.chartTitle,
-         xAxisKeys: this.xAxisKeys,
-         xAxisType: this.xAxisType,
-         yAxisKeys: this.yAxisKeys,
-         yAxisType: this.yAxisType,
-         type: this.graphType,
-         enableZoom: this.enableZoom,
-         backgroundColor: this.backgroundColor,
-      });
+      this.chartInit.emit(this._getCurrentDataset());
+   }
+
+   ngOnDestroy(): void {
+      this._requestSubscriptionRef?.unsubscribe();
    }
 }

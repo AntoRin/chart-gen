@@ -1,15 +1,15 @@
-import { Directive, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output } from "@angular/core";
+import { Directive, ElementRef, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import * as echart from "echarts";
+import { Subject } from "rxjs";
 import { ChartOptions } from "../../interfaces/ChartOptions";
 import { DatasetsType } from "../../types";
 
 @Directive({
    selector: "[appChartContainer]",
 })
-export class ChartContainerDirective implements OnInit, OnChanges {
-   @Input() chartOptions: ChartOptions = {} as ChartOptions;
+export class ChartContainerDirective implements OnInit {
    @Input() datasets: DatasetsType[] = [];
-   @Input() init: boolean = false;
+   @Input() controlSignal: Subject<boolean> | undefined;
    @Output() accessContainer: EventEmitter<HTMLDivElement> = new EventEmitter<HTMLDivElement>();
 
    public containerElement: HTMLDivElement;
@@ -22,10 +22,14 @@ export class ChartContainerDirective implements OnInit, OnChanges {
 
    ngOnInit(): void {
       this.accessContainer.emit(this.containerElement);
+      if (this.controlSignal)
+         this.controlSignal.subscribe(() => {
+            this._createChart();
+         });
    }
 
-   ngOnChanges() {
-      if (!this.init || !this.datasets.length) return;
+   private _createChart(): void {
+      if (!this.datasets.length) return;
 
       if (!this.chartInstance) this.chartInstance = echart.init(this.containerElement);
       else this.chartInstance.clear();
@@ -56,11 +60,9 @@ export class ChartContainerDirective implements OnInit, OnChanges {
          });
       }
 
-      console.log(series);
-
-      this.chartInstance.setOption({
+      const options = {
          title: {
-            text: this.chartOptions.title || "Chart",
+            text: this.datasets[0].chartOptions.title || "Chart",
          },
          dataZoom: [
             {
@@ -71,13 +73,15 @@ export class ChartContainerDirective implements OnInit, OnChanges {
          backgroundColor: this.datasets[0].chartOptions.backgroundColor,
          xAxis: {
             type: this.datasets[0].chartOptions.xAxisType,
-            data: this.datasets[0].chartOptions.yAxisKeys,
+            data: this.datasets[0].chartOptions.xAxisKeys,
          },
          yAxis: {
             type: this.datasets[0].chartOptions.yAxisType,
             data: this.datasets[0].chartOptions.yAxisKeys,
          },
          series,
-      });
+      };
+
+      this.chartInstance.setOption(options);
    }
 }

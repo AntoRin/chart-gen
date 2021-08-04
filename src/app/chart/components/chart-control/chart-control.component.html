@@ -19,12 +19,12 @@
          <div class="input-container">
             <mat-form-field class="full-width">
                <mat-label>Name of the Chart</mat-label>
-               <input name="chartTitle" matInput autocomplete="off" type="text" [(ngModel)]="chartTitle" />
+               <input name="chartTitle" matInput autocomplete="off" type="text" [(ngModel)]="chartOptions.title" />
             </mat-form-field>
          </div>
          <mat-form-field appearance="fill" class="full-width">
             <mat-label>Chart Type</mat-label>
-            <select name="graphType" id="graphType" matNativeControl [(ngModel)]="graphType">
+            <select name="graphType" id="graphType" matNativeControl [(ngModel)]="chartOptions.type">
                <option *ngFor="let type of allowedGraphTypes">
                   {{ type }}
                </option>
@@ -33,25 +33,27 @@
          <br />
          <mat-form-field appearance="fill" class="full-width">
             <mat-label>Background Color</mat-label>
-            <input matInput type="text" name="backgroundColor" [(ngModel)]="backgroundColor" />
+            <input matInput type="text" name="backgroundColor" [(ngModel)]="chartOptions.backgroundColor" />
          </mat-form-field>
          <br />
-         <mat-slide-toggle labelPosition="before" [checked]="enableZoom" (change)="setZoom($event)">Enable Zoom</mat-slide-toggle>
+         <mat-slide-toggle labelPosition="before" [checked]="chartOptions.enableZoom" (change)="setZoom($event)"
+            >Enable Zoom</mat-slide-toggle
+         >
          <br />
       </section>
       <section *ngIf="selectedTab === 'initialize'" class="tab-section">
          <div class="input-container">
             <app-chip-input
                [includeBtn]="true"
-               [chipList]="xAxisKeys"
+               [chipList]="chartOptions.xAxisKeys"
                (chipEvent)="handleInputModification($event, 'x')"
                (chipRemoveEvent)="removeInput($event, 'x')"
                (chipModifyEvent)="modifyValue($event, 'x')"
-               (chipClearFieldEvent)="xAxisKeys = []"
+               (chipClearFieldEvent)="chartOptions.xAxisKeys = []"
                label="X-Axis"
             >
             </app-chip-input>
-            <mat-button-toggle-group color="secondary" [(value)]="xAxisType">
+            <mat-button-toggle-group color="secondary" [(value)]="chartOptions.xAxisType">
                <mat-button-toggle id="x-axis-btn1" value="value">Value</mat-button-toggle>
                <mat-button-toggle id="x-axis-btn2" value="category">Category</mat-button-toggle>
             </mat-button-toggle-group>
@@ -60,14 +62,14 @@
          <div class="input-container">
             <app-chip-input
                [includeBtn]="true"
-               [chipList]="yAxisKeys"
+               [chipList]="chartOptions.yAxisKeys"
                (chipEvent)="handleInputModification($event, 'y')"
                (chipRemoveEvent)="removeInput($event, 'y')"
                (chipModifyEvent)="modifyValue($event, 'y')"
-               (chipClearFieldEvent)="yAxisKeys = []"
+               (chipClearFieldEvent)="chartOptions.yAxisKeys = []"
                label="Y-Axis"
             ></app-chip-input>
-            <mat-button-toggle-group [(value)]="yAxisType">
+            <mat-button-toggle-group [(value)]="chartOptions.yAxisType">
                <mat-button-toggle id="y-axis-btn1" value="value">Value</mat-button-toggle>
                <mat-button-toggle id="y-axis-btn2" value="category">Category</mat-button-toggle>
             </mat-button-toggle-group>
