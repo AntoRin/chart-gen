@@ -40,13 +40,7 @@
             <div class="input-container">
                <mat-form-field class="full-width">
                   <mat-label>Name of the Chart</mat-label>
-                  <input
-                     name="chartTitle"
-                     matInput
-                     autocomplete="off"
-                     type="text"
-                     [(ngModel)]="datasets[currentTabIndex].chartOptions.title"
-                  />
+                  <input name="chartTitle" matInput autocomplete="off" type="text" [(ngModel)]="chartTitle" />
                </mat-form-field>
             </div>
             <mat-form-field appearance="fill" class="full-width">
@@ -112,7 +106,16 @@
             <br />
          </section>
          <div class="control-actions">
-            <button type="button" class="action-btn-font" mat-raised-button color="primary" (click)="swapValues()">Swap values</button>
+            <button
+               type="button"
+               class="action-btn-font"
+               mat-raised-button
+               color="primary"
+               *ngIf="selectedTab === 'initialize'"
+               (click)="swapValues()"
+            >
+               Swap values
+            </button>
             <button type="submit" class="action-btn-font" mat-raised-button color="primary">Generate</button>
          </div>
       </form>

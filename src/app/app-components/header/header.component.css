@@ -1,8 +1,24 @@
 header {
+   position: relative;
    display: flex;
    justify-content: center;
    align-items: center;
    background-color: rgba(13, 10, 15, 0.867);
+   box-shadow: 0 2px 1px rgba(0, 0, 0, 0.404);
    color: whitesmoke;
    height: 100px;
+   width: 100%;
+   user-select: none;
+   z-index: 3;
+}
+
+.home-btn {
+   position: absolute;
+   left: 5px;
+   top: 50%;
+   transform: translateY(-50%);
+}
+
+.icon {
+   font-size: 1.75rem;
 }

@@ -15,6 +15,7 @@ export class ChartControlComponent implements OnInit, OnDestroy {
    private _primaryIdx: number = 0;
    public datasets: DatasetsType[] = [];
    public currentTabIndex: number = 0;
+   public chartTitle: string = "";
 
    public selectedTab: SettingsTabType = "basic";
    public allowedGraphTypes: GraphType[] = ["bar", "line", "scatter"];

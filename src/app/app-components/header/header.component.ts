@@ -1,14 +1,19 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: "app-header",
-  templateUrl: "./header.component.html",
-  styleUrls: ["./header.component.css"],
+   selector: "app-header",
+   templateUrl: "./header.component.html",
+   styleUrls: ["./header.component.css"],
 })
 export class HeaderComponent implements OnInit {
-  public text: string = "ChartGen";
+   public text: string = "ChartGen";
 
-  constructor() {}
+   constructor(private _router: Router) {}
 
-  ngOnInit(): void {}
+   ngOnInit(): void {}
+
+   goBack(): void {
+      this._router.navigate([""]);
+   }
 }
