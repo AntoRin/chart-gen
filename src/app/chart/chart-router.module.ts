@@ -10,10 +10,6 @@ import { ChartComponent } from "./components/chart/chart.component";
             path: "chart",
             component: ChartComponent,
          },
-         {
-            path: "**",
-            redirectTo: "chart",
-         },
       ]),
    ],
    exports: [RouterModule],

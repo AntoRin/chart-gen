@@ -22,6 +22,6 @@ import { ChartRouterModule } from "./chart-router.module";
       ScrollIntoViewDirective,
       ChipInputEditorComponent,
    ],
-   exports: [ChartRouterModule, ChartComponent],
+   exports: [ChartRouterModule, ChartComponent, MaterialUIModule],
 })
 export class ChartModule {}

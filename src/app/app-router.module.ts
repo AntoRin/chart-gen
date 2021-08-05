@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
+import { LandingComponent } from "./app-components/landing/landing.component";
 
 @NgModule({
    declarations: [],
@@ -7,8 +8,12 @@ import { RouterModule } from "@angular/router";
       RouterModule.forRoot([
          {
             path: "",
-            redirectTo: "chart",
+            component: LandingComponent,
             pathMatch: "full",
+         },
+         {
+            path: "**",
+            redirectTo: "",
          },
       ]),
    ],
