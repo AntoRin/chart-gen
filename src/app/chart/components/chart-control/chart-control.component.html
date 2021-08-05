@@ -2,11 +2,11 @@
    <div class="dataset-tabs">
       <span
          class="dataset-tab-item"
-         *ngFor="let dataset of datasets"
-         [ngClass]="currentTabId === dataset.index ? 'dataset-tab-item-active' : ''"
-         (click)="changeDatasetTab(dataset.index)"
+         *ngFor="let dataset of datasets; let idx = index"
+         [ngClass]="currentTabIndex === idx ? 'dataset-tab-item-active' : ''"
+         (click)="changeDatasetTab(idx)"
          >{{ dataset.datasetName }}
-         <button mat-icon-button (click)="deleteDatasetTab(dataset.index); $event.stopPropagation()">
+         <button mat-icon-button (click)="deleteDatasetTab(idx); $event.stopPropagation()">
             <mat-icon style="font-size: 1rem">close</mat-icon>
          </button>
       </span>
@@ -47,7 +47,6 @@
                      type="text"
                      [(ngModel)]="datasets[currentTabIndex].chartOptions.title"
                   />
-                  {{ currentTabId }}
                </mat-form-field>
             </div>
             <mat-form-field appearance="fill" class="full-width">

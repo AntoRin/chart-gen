@@ -13,10 +13,8 @@ export class ChartControlComponent implements OnInit, OnDestroy {
    @Output() public chartInit: EventEmitter<DatasetsType[]> = new EventEmitter<DatasetsType[]>();
 
    private _primaryIdx: number = 0;
-
    public datasets: DatasetsType[] = [];
    public currentTabIndex: number = 0;
-   public currentTabId: number = 0;
 
    public selectedTab: SettingsTabType = "basic";
    public allowedGraphTypes: GraphType[] = ["bar", "line", "scatter"];
@@ -51,26 +49,18 @@ export class ChartControlComponent implements OnInit, OnDestroy {
    createNewDatasetTab() {
       const id = this._primaryIdx++;
       this.datasets.push({
-         index: id,
          datasetName: "Chart-Tab-" + id,
          chartOptions: this._getDefaultChartOptions(),
       });
-      const idx: number = this.datasets.findIndex((dataset: DatasetsType) => dataset.index === id);
 
-      this.currentTabIndex = idx;
-      this.currentTabId = id;
+      this.currentTabIndex = this.datasets.length - 1;
    }
 
-   changeDatasetTab(tabId: number) {
-      const idx: number = this.datasets.findIndex((dataset: DatasetsType) => dataset.index === tabId);
-
+   changeDatasetTab(idx: number) {
       this.currentTabIndex = idx;
-      this.currentTabId = tabId;
    }
 
-   deleteDatasetTab(tabId: number) {
-      const idx: number = this.datasets.findIndex((dataset: DatasetsType) => dataset.index === tabId);
-
+   deleteDatasetTab(idx: number) {
       this.datasets.splice(idx, 1);
 
       if (idx === this.currentTabIndex) {
@@ -78,10 +68,7 @@ export class ChartControlComponent implements OnInit, OnDestroy {
       } else if (idx < this.currentTabIndex) {
          this.currentTabIndex = this.currentTabIndex - 1;
       } else {
-         this.currentTabIndex = idx;
       }
-
-      this.currentTabId = this.datasets[this.currentTabIndex].index;
    }
 
    changeTab(tabName: SettingsTabType) {
