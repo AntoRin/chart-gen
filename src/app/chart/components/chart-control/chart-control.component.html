@@ -1,84 +1,121 @@
-<div class="chart-control-container">
-   <div class="tab-nav">
-      <mat-nav-list class="nav-list-container">
-         <mat-list-item class="list-btn" [ngClass]="selectedTab === 'basic' ? 'list-btn-selected' : ''" (click)="changeTab('basic')">
-            Basic Settings
-         </mat-list-item>
-         <mat-divider></mat-divider>
-         <mat-list-item
-            class="list-btn"
-            [ngClass]="selectedTab === 'initialize' ? 'list-btn-selected' : ''"
-            (click)="changeTab('initialize')"
-         >
-            Initialize Chart
-         </mat-list-item>
-      </mat-nav-list>
+<div class="container">
+   <div class="dataset-tabs">
+      <span
+         class="dataset-tab-item"
+         *ngFor="let dataset of datasets"
+         [ngClass]="currentTabId === dataset.index ? 'dataset-tab-item-active' : ''"
+         (click)="changeDatasetTab(dataset.index)"
+         >{{ dataset.datasetName }}
+         <button mat-icon-button (click)="deleteDatasetTab(dataset.index); $event.stopPropagation()">
+            <mat-icon style="font-size: 1rem">close</mat-icon>
+         </button>
+      </span>
+      <button mat-icon-button color="primary" (click)="createNewDatasetTab()">
+         <mat-icon style="font-size: 1.75rem; margin-bottom: 5px">add</mat-icon>
+      </button>
+      <div class="tab-color-fill"></div>
    </div>
-   <form class="settings-form" (ngSubmit)="createChart($event)">
-      <section *ngIf="selectedTab === 'basic'" class="tab-section">
-         <div class="input-container">
-            <mat-form-field class="full-width">
-               <mat-label>Name of the Chart</mat-label>
-               <input name="chartTitle" matInput autocomplete="off" type="text" [(ngModel)]="chartOptions.title" />
-            </mat-form-field>
-         </div>
-         <mat-form-field appearance="fill" class="full-width">
-            <mat-label>Chart Type</mat-label>
-            <select name="graphType" id="graphType" matNativeControl [(ngModel)]="chartOptions.type">
-               <option *ngFor="let type of allowedGraphTypes">
-                  {{ type }}
-               </option>
-            </select>
-         </mat-form-field>
-         <br />
-         <mat-form-field appearance="fill" class="full-width">
-            <mat-label>Background Color</mat-label>
-            <input matInput type="text" name="backgroundColor" [(ngModel)]="chartOptions.backgroundColor" />
-         </mat-form-field>
-         <br />
-         <mat-slide-toggle labelPosition="before" [checked]="chartOptions.enableZoom" (change)="setZoom($event)"
-            >Enable Zoom</mat-slide-toggle
-         >
-         <br />
-      </section>
-      <section *ngIf="selectedTab === 'initialize'" class="tab-section">
-         <div class="input-container">
-            <app-chip-input
-               [includeBtn]="true"
-               [chipList]="chartOptions.xAxisKeys"
-               (chipEvent)="handleInputModification($event, 'x')"
-               (chipRemoveEvent)="removeInput($event, 'x')"
-               (chipModifyEvent)="modifyValue($event, 'x')"
-               (chipClearFieldEvent)="chartOptions.xAxisKeys = []"
-               label="X-Axis"
+   <div class="chart-control-container" *ngIf="datasets.length">
+      <div class="tab-nav">
+         <mat-nav-list class="nav-list-container">
+            <mat-list-item
+               class="list-btn"
+               [ngClass]="selectedTab === 'basic' ? 'list-btn-selected' : ''"
+               (click)="changeTab('basic')"
             >
-            </app-chip-input>
-            <mat-button-toggle-group color="secondary" [(value)]="chartOptions.xAxisType">
-               <mat-button-toggle id="x-axis-btn1" value="value">Value</mat-button-toggle>
-               <mat-button-toggle id="x-axis-btn2" value="category">Category</mat-button-toggle>
-            </mat-button-toggle-group>
-         </div>
-         <br />
-         <div class="input-container">
-            <app-chip-input
-               [includeBtn]="true"
-               [chipList]="chartOptions.yAxisKeys"
-               (chipEvent)="handleInputModification($event, 'y')"
-               (chipRemoveEvent)="removeInput($event, 'y')"
-               (chipModifyEvent)="modifyValue($event, 'y')"
-               (chipClearFieldEvent)="chartOptions.yAxisKeys = []"
-               label="Y-Axis"
-            ></app-chip-input>
-            <mat-button-toggle-group [(value)]="chartOptions.yAxisType">
-               <mat-button-toggle id="y-axis-btn1" value="value">Value</mat-button-toggle>
-               <mat-button-toggle id="y-axis-btn2" value="category">Category</mat-button-toggle>
-            </mat-button-toggle-group>
-         </div>
-         <br />
-      </section>
-      <div class="control-actions">
-         <button type="button" class="action-btn-font" mat-raised-button color="primary" (click)="swapValues()">Swap values</button>
-         <button type="submit" class="action-btn-font" mat-raised-button color="primary">Generate</button>
+               Basic Settings
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item
+               class="list-btn"
+               [ngClass]="selectedTab === 'initialize' ? 'list-btn-selected' : ''"
+               (click)="changeTab('initialize')"
+            >
+               Initialize Chart
+            </mat-list-item>
+         </mat-nav-list>
       </div>
-   </form>
+      <form class="settings-form" (ngSubmit)="createChart($event)" *ngIf="datasets[currentTabIndex]">
+         <section *ngIf="selectedTab === 'basic'" class="tab-section">
+            <div class="input-container">
+               <mat-form-field class="full-width">
+                  <mat-label>Name of the Chart</mat-label>
+                  <input
+                     name="chartTitle"
+                     matInput
+                     autocomplete="off"
+                     type="text"
+                     [(ngModel)]="datasets[currentTabIndex].chartOptions.title"
+                  />
+                  {{ currentTabId }}
+               </mat-form-field>
+            </div>
+            <mat-form-field appearance="fill" class="full-width">
+               <mat-label>Chart Type</mat-label>
+               <select name="graphType" id="graphType" matNativeControl [(ngModel)]="datasets[currentTabIndex].chartOptions.type">
+                  <option *ngFor="let type of allowedGraphTypes">
+                     {{ type }}
+                  </option>
+               </select>
+            </mat-form-field>
+            <br />
+            <mat-form-field appearance="fill" class="full-width">
+               <mat-label>Background Color</mat-label>
+               <input
+                  matInput
+                  type="text"
+                  name="backgroundColor"
+                  [(ngModel)]="datasets[currentTabIndex].chartOptions.backgroundColor"
+               />
+            </mat-form-field>
+            <br />
+            <mat-slide-toggle
+               labelPosition="before"
+               [checked]="datasets[currentTabIndex].chartOptions.enableZoom"
+               (change)="setZoom($event)"
+               >Enable Zoom</mat-slide-toggle
+            >
+            <br />
+         </section>
+         <section *ngIf="selectedTab === 'initialize'" class="tab-section">
+            <div class="input-container">
+               <app-chip-input
+                  [includeBtn]="true"
+                  [chipList]="datasets[currentTabIndex].chartOptions.xAxisKeys"
+                  (chipEvent)="handleInputModification($event, 'x')"
+                  (chipRemoveEvent)="removeInput($event, 'x')"
+                  (chipModifyEvent)="modifyValue($event, 'x')"
+                  (chipClearFieldEvent)="datasets[currentTabIndex].chartOptions.xAxisKeys = []"
+                  label="X-Axis"
+               >
+               </app-chip-input>
+               <mat-button-toggle-group color="secondary" [(value)]="datasets[currentTabIndex].chartOptions.xAxisType">
+                  <mat-button-toggle id="x-axis-btn1" value="value">Value</mat-button-toggle>
+                  <mat-button-toggle id="x-axis-btn2" value="category">Category</mat-button-toggle>
+               </mat-button-toggle-group>
+            </div>
+            <br />
+            <div class="input-container">
+               <app-chip-input
+                  [includeBtn]="true"
+                  [chipList]="datasets[currentTabIndex].chartOptions.yAxisKeys"
+                  (chipEvent)="handleInputModification($event, 'y')"
+                  (chipRemoveEvent)="removeInput($event, 'y')"
+                  (chipModifyEvent)="modifyValue($event, 'y')"
+                  (chipClearFieldEvent)="datasets[currentTabIndex].chartOptions.yAxisKeys = []"
+                  label="Y-Axis"
+               ></app-chip-input>
+               <mat-button-toggle-group [(value)]="datasets[currentTabIndex].chartOptions.yAxisType">
+                  <mat-button-toggle id="y-axis-btn1" value="value">Value</mat-button-toggle>
+                  <mat-button-toggle id="y-axis-btn2" value="category">Category</mat-button-toggle>
+               </mat-button-toggle-group>
+            </div>
+            <br />
+         </section>
+         <div class="control-actions">
+            <button type="button" class="action-btn-font" mat-raised-button color="primary" (click)="swapValues()">Swap values</button>
+            <button type="submit" class="action-btn-font" mat-raised-button color="primary">Generate</button>
+         </div>
+      </form>
+   </div>
 </div>

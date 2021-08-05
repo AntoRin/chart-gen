@@ -1,17 +1,18 @@
-import { Directive, ElementRef, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Directive, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import * as echart from "echarts";
-import { Subject } from "rxjs";
+import { Subject, Subscription } from "rxjs";
 import { ChartOptions } from "../../interfaces/ChartOptions";
 import { DatasetsType } from "../../types";
 
 @Directive({
    selector: "[appChartContainer]",
 })
-export class ChartContainerDirective implements OnInit {
-   @Input() datasets: DatasetsType[] = [];
-   @Input() controlSignal: Subject<boolean> | undefined;
+export class ChartContainerDirective implements OnInit, OnDestroy {
+   @Input() controlSignal: Subject<DatasetsType[]> | undefined;
    @Output() accessContainer: EventEmitter<HTMLDivElement> = new EventEmitter<HTMLDivElement>();
 
+   private _subscriptionRef: Subscription | undefined;
+   private datasets: DatasetsType[] = [];
    public containerElement: HTMLDivElement;
    public chartInstance: echart.ECharts | undefined;
 
@@ -23,12 +24,14 @@ export class ChartContainerDirective implements OnInit {
    ngOnInit(): void {
       this.accessContainer.emit(this.containerElement);
       if (this.controlSignal)
-         this.controlSignal.subscribe(() => {
+         this._subscriptionRef = this.controlSignal.asObservable().subscribe((datasets: DatasetsType[]) => {
+            this.datasets = datasets;
             this._createChart();
          });
    }
 
    private _createChart(): void {
+      console.log(this.datasets);
       if (!this.datasets.length) return;
 
       if (!this.chartInstance) this.chartInstance = echart.init(this.containerElement);
@@ -83,5 +86,9 @@ export class ChartContainerDirective implements OnInit {
       };
 
       this.chartInstance.setOption(options);
+   }
+
+   ngOnDestroy() {
+      this._subscriptionRef?.unsubscribe();
    }
 }
