@@ -88,6 +88,14 @@
 
 .tab-section {
    min-height: 90%;
+   border-bottom: 2px solid #fafafa;
+   padding-bottom: 5px;
+   overflow-y: scroll;
+}
+
+.tab-section::-webkit-scrollbar {
+   background: rgba(51, 51, 51, 0.726);
+   width: 5px;
 }
 
 .input-container {

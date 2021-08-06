@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subject, Subscription } from "rxjs";
-import { DatasetsType } from "../../../types";
+import { Chart } from "../../../interfaces/Chart";
 
 @Component({
    templateUrl: "./chart.component.html",
@@ -11,11 +11,11 @@ export class ChartComponent implements OnInit, OnDestroy {
    private _userActionSubject: Subject<any> = new Subject<any>();
    private _subscriptionRef: Subscription | null = null;
 
-   public datasets: DatasetsType[] = [];
+   public chartTitle: string = "";
    public showUserConfirmDialog: boolean = false;
    public scrollSignal: Subject<any> = new Subject<any>();
    public init: boolean = false;
-   public chartControlsSubject: Subject<DatasetsType[]> = new Subject<DatasetsType[]>();
+   public chartControlsSubject: Subject<Chart> = new Subject<Chart>();
 
    public constructor() {}
 
@@ -25,9 +25,9 @@ export class ChartComponent implements OnInit, OnDestroy {
       this._chartContainerRef = container;
    }
 
-   handleChartCreation(datasets: DatasetsType[]) {
-      this.datasets = datasets;
-      this.chartControlsSubject.next(datasets);
+   handleChartCreation(chart: Chart) {
+      this.chartTitle = chart.globalOptions.chartTitle;
+      this.chartControlsSubject.next(chart);
       this.scrollSignal.next();
       this.init = true;
    }

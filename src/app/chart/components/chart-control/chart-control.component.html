@@ -37,10 +37,68 @@
       </div>
       <form class="settings-form" (ngSubmit)="createChart($event)" *ngIf="datasets[currentTabIndex]">
          <section *ngIf="selectedTab === 'basic'" class="tab-section">
+            <mat-form-field appearance="fill" class="full-width">
+               <mat-label>Chart Title</mat-label>
+               <input matInput type="text" name="chartTitle" [(ngModel)]="globalOptions.chartTitle" />
+            </mat-form-field>
+            <br />
+            <mat-form-field appearance="fill" class="full-width">
+               <mat-label>Background Color</mat-label>
+               <input matInput type="text" name="backgroundColor" [(ngModel)]="globalOptions.backgroundColor" />
+            </mat-form-field>
+            <br />
+            <mat-slide-toggle labelPosition="before" [checked]="globalOptions.enableZoom" (change)="setZoom($event)"
+               >Enable Zoom</mat-slide-toggle
+            >
+            <br />
+            <mat-form-field appearance="fill" class="full-width">
+               <mat-label>X-Axis Name</mat-label>
+               <input matInput type="text" name="xAxisName" [(ngModel)]="globalOptions.xName" />
+            </mat-form-field>
+            <mat-button-toggle-group color="secondary" [(value)]="globalOptions.xAxisType">
+               <mat-button-toggle id="x-axis-btn1" value="value">Value</mat-button-toggle>
+               <mat-button-toggle id="x-axis-btn2" value="category">Category</mat-button-toggle>
+            </mat-button-toggle-group>
+            <app-chip-input
+               [includeBtn]="true"
+               [chipList]="globalOptions.xCategories"
+               (chipEvent)="globalOptions.xCategories.push($event)"
+               (chipRemoveEvent)="globalOptions.xCategories.splice(+$event, 1)"
+               (chipModifyEvent)="globalOptions.xCategories[$event.index] = $event.value"
+               (chipClearFieldEvent)="globalOptions.xCategories = []"
+               label="X-Axis-Categories"
+            ></app-chip-input>
+            <br />
+            <mat-form-field appearance="fill" class="full-width">
+               <mat-label>Y-Axis Name</mat-label>
+               <input matInput type="text" name="yAxisName" [(ngModel)]="globalOptions.yName" />
+            </mat-form-field>
+            <mat-button-toggle-group [(value)]="globalOptions.yAxisType">
+               <mat-button-toggle id="y-axis-btn1" value="value">Value</mat-button-toggle>
+               <mat-button-toggle id="y-axis-btn2" value="category">Category</mat-button-toggle>
+            </mat-button-toggle-group>
+            <br />
+            <app-chip-input
+               [includeBtn]="true"
+               [chipList]="globalOptions.yCategories"
+               (chipEvent)="globalOptions.yCategories.push($event)"
+               (chipRemoveEvent)="globalOptions.yCategories.splice(+$event, 1)"
+               (chipModifyEvent)="globalOptions.yCategories[$event.index] = $event.value"
+               (chipClearFieldEvent)="globalOptions.yCategories = []"
+               label="Y-Axis-Categories"
+            ></app-chip-input>
+         </section>
+         <section *ngIf="selectedTab === 'initialize'" class="tab-section">
             <div class="input-container">
                <mat-form-field class="full-width">
-                  <mat-label>Name of the Chart</mat-label>
-                  <input name="chartTitle" matInput autocomplete="off" type="text" [(ngModel)]="chartTitle" />
+                  <mat-label>Name of the Dataset</mat-label>
+                  <input
+                     name="seriesName"
+                     matInput
+                     autocomplete="off"
+                     type="text"
+                     [(ngModel)]="datasets[currentTabIndex].chartOptions.seriesName"
+                  />
                </mat-form-field>
             </div>
             <mat-form-field appearance="fill" class="full-width">
@@ -52,25 +110,6 @@
                </select>
             </mat-form-field>
             <br />
-            <mat-form-field appearance="fill" class="full-width">
-               <mat-label>Background Color</mat-label>
-               <input
-                  matInput
-                  type="text"
-                  name="backgroundColor"
-                  [(ngModel)]="datasets[currentTabIndex].chartOptions.backgroundColor"
-               />
-            </mat-form-field>
-            <br />
-            <mat-slide-toggle
-               labelPosition="before"
-               [checked]="datasets[currentTabIndex].chartOptions.enableZoom"
-               (change)="setZoom($event)"
-               >Enable Zoom</mat-slide-toggle
-            >
-            <br />
-         </section>
-         <section *ngIf="selectedTab === 'initialize'" class="tab-section">
             <div class="input-container">
                <app-chip-input
                   [includeBtn]="true"
@@ -79,13 +118,9 @@
                   (chipRemoveEvent)="removeInput($event, 'x')"
                   (chipModifyEvent)="modifyValue($event, 'x')"
                   (chipClearFieldEvent)="datasets[currentTabIndex].chartOptions.xAxisKeys = []"
-                  label="X-Axis"
+                  [label]="globalOptions.xAxisType === 'value' ? 'X-Axis Values' : 'Value Names'"
                >
                </app-chip-input>
-               <mat-button-toggle-group color="secondary" [(value)]="datasets[currentTabIndex].chartOptions.xAxisType">
-                  <mat-button-toggle id="x-axis-btn1" value="value">Value</mat-button-toggle>
-                  <mat-button-toggle id="x-axis-btn2" value="category">Category</mat-button-toggle>
-               </mat-button-toggle-group>
             </div>
             <br />
             <div class="input-container">
@@ -96,12 +131,8 @@
                   (chipRemoveEvent)="removeInput($event, 'y')"
                   (chipModifyEvent)="modifyValue($event, 'y')"
                   (chipClearFieldEvent)="datasets[currentTabIndex].chartOptions.yAxisKeys = []"
-                  label="Y-Axis"
+                  [label]="globalOptions.yAxisType === 'value' ? 'Y-Axis Values' : 'Value Names'"
                ></app-chip-input>
-               <mat-button-toggle-group [(value)]="datasets[currentTabIndex].chartOptions.yAxisType">
-                  <mat-button-toggle id="y-axis-btn1" value="value">Value</mat-button-toggle>
-                  <mat-button-toggle id="y-axis-btn2" value="category">Category</mat-button-toggle>
-               </mat-button-toggle-group>
             </div>
             <br />
          </section>

@@ -1,7 +1,9 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from "@angular/core";
 import { MatSlideToggleChange } from "@angular/material/slide-toggle";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { Chart } from "../../../interfaces/Chart";
 import { ChartOptions } from "../../../interfaces/ChartOptions";
+import { GlobalOptions } from "../../../interfaces/GlobalOptions";
 import { DatasetsType, GraphType, SettingsTabType } from "../../../types";
 
 @Component({
@@ -10,17 +12,29 @@ import { DatasetsType, GraphType, SettingsTabType } from "../../../types";
    styleUrls: ["./chart-control.component.css"],
 })
 export class ChartControlComponent implements OnInit, OnDestroy {
-   @Output() public chartInit: EventEmitter<DatasetsType[]> = new EventEmitter<DatasetsType[]>();
+   @Output() public chartInit: EventEmitter<Chart> = new EventEmitter<Chart>();
 
    private _primaryIdx: number = 0;
    public datasets: DatasetsType[] = [];
    public currentTabIndex: number = 0;
-   public chartTitle: string = "";
+   public globalOptions: GlobalOptions;
 
    public selectedTab: SettingsTabType = "basic";
    public allowedGraphTypes: GraphType[] = ["bar", "line", "scatter"];
 
-   constructor(private _snackBar: MatSnackBar) {}
+   constructor(private _snackBar: MatSnackBar) {
+      this.globalOptions = {
+         chartTitle: "",
+         backgroundColor: undefined,
+         enableZoom: false,
+         xCategories: [],
+         yCategories: [],
+         xName: "",
+         yName: "",
+         xAxisType: "category",
+         yAxisType: "value",
+      };
+   }
 
    ngOnInit(): void {
       this.createNewDatasetTab();
@@ -28,14 +42,10 @@ export class ChartControlComponent implements OnInit, OnDestroy {
 
    private _getDefaultChartOptions(): ChartOptions {
       return {
-         backgroundColor: undefined,
-         enableZoom: false,
          type: "bar",
          xAxisKeys: [],
          yAxisKeys: [],
-         xAxisType: "category",
-         yAxisType: "value",
-         title: "",
+         seriesName: "",
       };
    }
 
@@ -77,18 +87,18 @@ export class ChartControlComponent implements OnInit, OnDestroy {
    }
 
    setZoom(event: MatSlideToggleChange) {
-      this.datasets[this.currentTabIndex].chartOptions.enableZoom = event.checked;
+      this.globalOptions.enableZoom = event.checked;
    }
 
    handleInputModification(newInput: string, axis: "x" | "y") {
       if (axis === "x") {
-         if (this.datasets[this.currentTabIndex].chartOptions.xAxisType === "value" && isNaN(Number(newInput))) {
+         if (this.globalOptions.xAxisType === "value" && isNaN(Number(newInput))) {
             this._openSnackbar("Axis initialized as value but is not provided a number");
             return;
          }
          this.datasets[this.currentTabIndex].chartOptions.xAxisKeys.push(newInput);
       } else if (axis === "y") {
-         if (this.datasets[this.currentTabIndex].chartOptions.yAxisType === "value" && isNaN(Number(newInput))) {
+         if (this.globalOptions.yAxisType === "value" && isNaN(Number(newInput))) {
             this._openSnackbar("Axis initialized as value but is not provided a number");
             return;
          }
@@ -116,10 +126,7 @@ export class ChartControlComponent implements OnInit, OnDestroy {
    }
 
    createChart(_: any): void {
-      if (
-         this.datasets[this.currentTabIndex].chartOptions.xAxisType === "category" &&
-         this.datasets[this.currentTabIndex].chartOptions.yAxisType === "category"
-      ) {
+      if (this.globalOptions.xAxisType === "category" && this.globalOptions.yAxisType === "category") {
          this._openSnackbar("Both the axes cannot be categories - one must be a value");
          return;
       }
@@ -133,7 +140,10 @@ export class ChartControlComponent implements OnInit, OnDestroy {
          return;
       }
 
-      this.chartInit.emit(this.datasets);
+      this.chartInit.emit({
+         datasets: this.datasets,
+         globalOptions: this.globalOptions,
+      });
    }
 
    ngOnDestroy(): void {}
