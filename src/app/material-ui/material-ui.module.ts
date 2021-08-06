@@ -14,6 +14,7 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { MatListModule } from "@angular/material/list";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatDividerModule } from "@angular/material/divider";
+import { MatRadioModule } from "@angular/material/radio";
 
 @NgModule({
    declarations: [],
@@ -33,6 +34,7 @@ import { MatDividerModule } from "@angular/material/divider";
       MatListModule,
       MatSlideToggleModule,
       MatDividerModule,
+      MatRadioModule,
    ],
 })
 export class MaterialUIModule {}

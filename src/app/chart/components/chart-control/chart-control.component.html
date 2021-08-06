@@ -36,7 +36,7 @@
          </mat-nav-list>
       </div>
       <form class="settings-form" (ngSubmit)="createChart($event)" *ngIf="datasets[currentTabIndex]">
-         <section *ngIf="selectedTab === 'basic'" class="tab-section">
+         <section *ngIf="selectedTab === 'basic'" class="tab-section input-container">
             <mat-form-field appearance="fill" class="full-width">
                <mat-label>Chart Title</mat-label>
                <input matInput type="text" name="chartTitle" [(ngModel)]="globalOptions.chartTitle" />
@@ -51,42 +51,51 @@
                >Enable Zoom</mat-slide-toggle
             >
             <br />
-            <mat-form-field appearance="fill" class="full-width">
-               <mat-label>X-Axis Name</mat-label>
-               <input matInput type="text" name="xAxisName" [(ngModel)]="globalOptions.xName" />
-            </mat-form-field>
-            <mat-button-toggle-group color="secondary" [(value)]="globalOptions.xAxisType">
-               <mat-button-toggle id="x-axis-btn1" value="value">Value</mat-button-toggle>
-               <mat-button-toggle id="x-axis-btn2" value="category">Category</mat-button-toggle>
-            </mat-button-toggle-group>
-            <app-chip-input
-               [includeBtn]="true"
-               [chipList]="globalOptions.xCategories"
-               (chipEvent)="globalOptions.xCategories.push($event)"
-               (chipRemoveEvent)="globalOptions.xCategories.splice(+$event, 1)"
-               (chipModifyEvent)="globalOptions.xCategories[$event.index] = $event.value"
-               (chipClearFieldEvent)="globalOptions.xCategories = []"
-               label="X-Axis-Categories"
-            ></app-chip-input>
+            <div class="global-axis-settings">
+               <mat-form-field appearance="fill" class="full-width">
+                  <mat-label>X-Axis Name</mat-label>
+                  <input matInput type="text" name="xAxisName" [(ngModel)]="globalOptions.xName" />
+               </mat-form-field>
+               <mat-radio-group [value]="globalOptions.xAxisType" (change)="globalOptions.xAxisType = $event.value">
+                  <mat-radio-button value="category">Category</mat-radio-button>
+                  <mat-radio-button value="value">Value</mat-radio-button>
+               </mat-radio-group>
+               <br />
+               <br />
+               <app-chip-input
+                  *ngIf="globalOptions.xAxisType === 'category'"
+                  [includeBtn]="true"
+                  [chipList]="globalOptions.xCategories"
+                  (chipEvent)="globalOptions.xCategories.push($event)"
+                  (chipRemoveEvent)="globalOptions.xCategories.splice(+$event, 1)"
+                  (chipModifyEvent)="globalOptions.xCategories[$event.index] = $event.value"
+                  (chipClearFieldEvent)="globalOptions.xCategories = []"
+                  label="X-Axis-Categories"
+               ></app-chip-input>
+            </div>
             <br />
-            <mat-form-field appearance="fill" class="full-width">
-               <mat-label>Y-Axis Name</mat-label>
-               <input matInput type="text" name="yAxisName" [(ngModel)]="globalOptions.yName" />
-            </mat-form-field>
-            <mat-button-toggle-group [(value)]="globalOptions.yAxisType">
-               <mat-button-toggle id="y-axis-btn1" value="value">Value</mat-button-toggle>
-               <mat-button-toggle id="y-axis-btn2" value="category">Category</mat-button-toggle>
-            </mat-button-toggle-group>
-            <br />
-            <app-chip-input
-               [includeBtn]="true"
-               [chipList]="globalOptions.yCategories"
-               (chipEvent)="globalOptions.yCategories.push($event)"
-               (chipRemoveEvent)="globalOptions.yCategories.splice(+$event, 1)"
-               (chipModifyEvent)="globalOptions.yCategories[$event.index] = $event.value"
-               (chipClearFieldEvent)="globalOptions.yCategories = []"
-               label="Y-Axis-Categories"
-            ></app-chip-input>
+            <div class="global-axis-settings">
+               <mat-form-field appearance="fill" class="full-width">
+                  <mat-label>Y-Axis Name</mat-label>
+                  <input matInput type="text" name="yAxisName" [(ngModel)]="globalOptions.yName" />
+               </mat-form-field>
+               <mat-radio-group [value]="globalOptions.yAxisType" (change)="globalOptions.yAxisType = $event.value">
+                  <mat-radio-button value="category">Category</mat-radio-button>
+                  <mat-radio-button value="value">Value</mat-radio-button>
+               </mat-radio-group>
+               <br />
+               <br />
+               <app-chip-input
+                  *ngIf="globalOptions.yAxisType === 'category'"
+                  [includeBtn]="true"
+                  [chipList]="globalOptions.yCategories"
+                  (chipEvent)="globalOptions.yCategories.push($event)"
+                  (chipRemoveEvent)="globalOptions.yCategories.splice(+$event, 1)"
+                  (chipModifyEvent)="globalOptions.yCategories[$event.index] = $event.value"
+                  (chipClearFieldEvent)="globalOptions.yCategories = []"
+                  label="Y-Axis-Categories"
+               ></app-chip-input>
+            </div>
          </section>
          <section *ngIf="selectedTab === 'initialize'" class="tab-section">
             <div class="input-container">
