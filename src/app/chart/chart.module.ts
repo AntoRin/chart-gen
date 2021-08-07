@@ -11,9 +11,10 @@ import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialUIModule } from "../material-ui/material-ui.module";
 import { ChartRouterModule } from "./chart-router.module";
+import { UtilityModule } from "../shared/utility.module";
 
 @NgModule({
-   imports: [ChartRouterModule, CommonModule, BrowserModule, FormsModule, BrowserAnimationsModule, MaterialUIModule],
+   imports: [ChartRouterModule, CommonModule, BrowserModule, FormsModule, BrowserAnimationsModule, MaterialUIModule, UtilityModule],
    declarations: [
       ChartComponent,
       ChartContainerDirective,

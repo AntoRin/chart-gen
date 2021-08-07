@@ -91,7 +91,7 @@
                   [chipList]="globalOptions.yCategories"
                   (chipEvent)="globalOptions.yCategories.push($event)"
                   (chipRemoveEvent)="globalOptions.yCategories.splice(+$event, 1)"
-                  (chipModifyEvent)="globalOptions.yCategories[$event.index] = $event.value"
+                  (chipModifyEvent)="globalOptions.yCategories[+$event.index] = $event.value"
                   (chipClearFieldEvent)="globalOptions.yCategories = []"
                   label="Y-Axis-Categories"
                ></app-chip-input>
@@ -124,8 +124,8 @@
                   [includeBtn]="true"
                   [chipList]="datasets[currentTabIndex].chartOptions.xAxisKeys"
                   (chipEvent)="handleInputModification($event, 'x')"
-                  (chipRemoveEvent)="removeInput($event, 'x')"
-                  (chipModifyEvent)="modifyValue($event, 'x')"
+                  (chipRemoveEvent)="datasets[currentTabIndex].chartOptions.xAxisKeys.splice(+$event, 1)"
+                  (chipModifyEvent)="datasets[currentTabIndex].chartOptions.xAxisKeys[+$event.index] = $event.value"
                   (chipClearFieldEvent)="datasets[currentTabIndex].chartOptions.xAxisKeys = []"
                   [label]="globalOptions.xAxisType === 'value' ? 'X-Axis Values' : 'Value Names'"
                >
@@ -137,8 +137,8 @@
                   [includeBtn]="true"
                   [chipList]="datasets[currentTabIndex].chartOptions.yAxisKeys"
                   (chipEvent)="handleInputModification($event, 'y')"
-                  (chipRemoveEvent)="removeInput($event, 'y')"
-                  (chipModifyEvent)="modifyValue($event, 'y')"
+                  (chipRemoveEvent)="datasets[currentTabIndex].chartOptions.yAxisKeys.splice(+$event, 1)"
+                  (chipModifyEvent)="datasets[currentTabIndex].chartOptions.yAxisKeys[+$event.index] = $event.value"
                   (chipClearFieldEvent)="datasets[currentTabIndex].chartOptions.yAxisKeys = []"
                   [label]="globalOptions.yAxisType === 'value' ? 'Y-Axis Values' : 'Value Names'"
                ></app-chip-input>
@@ -161,3 +161,4 @@
       </form>
    </div>
 </div>
+<app-action-dialog #dialog></app-action-dialog>

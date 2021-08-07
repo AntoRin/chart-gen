@@ -1,10 +1,10 @@
 import { NgModule } from "@angular/core";
-import { ChartModule } from "./chart/chart.module";
-import { AppComponent } from "./app.component";
-import { HeaderComponent } from "./app-components/header/header.component";
 import { BrowserModule } from "@angular/platform-browser";
-import { AppRouterModule } from "./app-router.module";
+import { HeaderComponent } from "./app-components/header/header.component";
 import { LandingComponent } from "./app-components/landing/landing.component";
+import { AppRouterModule } from "./app-router.module";
+import { AppComponent } from "./app.component";
+import { ChartModule } from "./chart/chart.module";
 
 @NgModule({
    imports: [ChartModule, AppRouterModule, BrowserModule],

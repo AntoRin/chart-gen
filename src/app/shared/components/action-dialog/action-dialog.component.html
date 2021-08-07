@@ -1,0 +1,20 @@
+<div class="dialog-container" *ngIf="isOpen">
+   <div class="position-wrapper">
+      <mat-card class="dialog">
+         <mat-card-title>
+            {{ title }}
+         </mat-card-title>
+         <mat-card-content>
+            {{ message }}
+         </mat-card-content>
+         <mat-card-footer>
+            {{ footer }}
+         </mat-card-footer>
+         <mat-card-actions class="actions">
+            <button mat-raised-button color="primary" *ngFor="let action of actions" (click)="close(action)">
+               {{ action }}
+            </button>
+         </mat-card-actions>
+      </mat-card>
+   </div>
+</div>
