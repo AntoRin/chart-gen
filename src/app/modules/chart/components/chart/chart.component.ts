@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Subject, Subscription } from "rxjs";
+import { Observable, Subject, Subscription } from "rxjs";
 import { Chart } from "../../../../interfaces/Chart";
 
 @Component({
@@ -10,12 +10,13 @@ export class ChartComponent implements OnInit, OnDestroy {
    private _chartContainerRef: HTMLDivElement | null = null;
    private _userActionSubject: Subject<any> = new Subject<any>();
    private _subscriptionRef: Subscription | null = null;
+   private _chartControlsSubject: Subject<Chart> = new Subject<Chart>();
 
    public chartTitle: string = "";
    public showUserConfirmDialog: boolean = false;
    public scrollSignal: Subject<any> = new Subject<any>();
    public init: boolean = false;
-   public chartControlsSubject: Subject<Chart> = new Subject<Chart>();
+   public chartControl$: Observable<Chart> = this._chartControlsSubject.asObservable();
 
    public constructor() {}
 
@@ -27,7 +28,7 @@ export class ChartComponent implements OnInit, OnDestroy {
 
    handleChartCreation(chart: Chart) {
       this.chartTitle = chart.globalOptions.chartTitle;
-      this.chartControlsSubject.next(chart);
+      this._chartControlsSubject.next(chart);
       this.scrollSignal.next();
       this.init = true;
    }

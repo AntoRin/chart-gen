@@ -57,6 +57,7 @@
                >Enable Zoom</mat-slide-toggle
             >
             <br />
+            <br />
             <div class="global-axis-settings">
                <mat-form-field appearance="fill" class="full-width">
                   <mat-label>X-Axis Name</mat-label>
@@ -74,7 +75,9 @@
                   [chipList]="globalOptions.xCategories"
                   (chipEvent)="globalOptions.xCategories.push($event)"
                   (chipRemoveEvent)="globalOptions.xCategories.splice(+$event, 1)"
-                  (chipModifyEvent)="globalOptions.xCategories[$event.index] = $event.value"
+                  (chipModifyEvent)="
+                     globalOptions.xCategories[$event.index] = $event.value ? $event.value : globalOptions.xCategories[$event.index]
+                  "
                   (chipClearFieldEvent)="globalOptions.xCategories = []"
                   label="X-Axis-Categories"
                ></app-chip-input>
@@ -98,7 +101,9 @@
                   [chipList]="globalOptions.yCategories"
                   (chipEvent)="globalOptions.yCategories.push($event)"
                   (chipRemoveEvent)="globalOptions.yCategories.splice(+$event, 1)"
-                  (chipModifyEvent)="globalOptions.yCategories[+$event.index] = $event.value"
+                  (chipModifyEvent)="
+                     globalOptions.yCategories[+$event.index] = $event.value ? $event.value : globalOptions.yCategories[+$event.index]
+                  "
                   (chipClearFieldEvent)="globalOptions.yCategories = []"
                   label="Y-Axis-Categories"
                ></app-chip-input>
@@ -132,7 +137,11 @@
                   [chipList]="datasets[currentTabIndex].chartOptions.xAxisKeys"
                   (chipEvent)="handleInputModification($event, 'x')"
                   (chipRemoveEvent)="datasets[currentTabIndex].chartOptions.xAxisKeys.splice(+$event, 1)"
-                  (chipModifyEvent)="datasets[currentTabIndex].chartOptions.xAxisKeys[+$event.index] = $event.value"
+                  (chipModifyEvent)="
+                     datasets[currentTabIndex].chartOptions.xAxisKeys[+$event.index] = $event.value
+                        ? $event.value
+                        : datasets[currentTabIndex].chartOptions.xAxisKeys[+$event.index]
+                  "
                   (chipClearFieldEvent)="datasets[currentTabIndex].chartOptions.xAxisKeys = []"
                   [label]="globalOptions.xAxisType === 'value' ? 'X-Axis Values' : 'Value Names'"
                >
@@ -145,7 +154,11 @@
                   [chipList]="datasets[currentTabIndex].chartOptions.yAxisKeys"
                   (chipEvent)="handleInputModification($event, 'y')"
                   (chipRemoveEvent)="datasets[currentTabIndex].chartOptions.yAxisKeys.splice(+$event, 1)"
-                  (chipModifyEvent)="datasets[currentTabIndex].chartOptions.yAxisKeys[+$event.index] = $event.value"
+                  (chipModifyEvent)="
+                     datasets[currentTabIndex].chartOptions.yAxisKeys[+$event.index] = $event.value
+                        ? $event.value
+                        : datasets[currentTabIndex].chartOptions.yAxisKeys[+$event.index]
+                  "
                   (chipClearFieldEvent)="datasets[currentTabIndex].chartOptions.yAxisKeys = []"
                   [label]="globalOptions.yAxisType === 'value' ? 'Y-Axis Values' : 'Value Names'"
                ></app-chip-input>

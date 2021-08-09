@@ -29,13 +29,13 @@ export class ChartControlComponent implements OnInit, OnDestroy {
 
    constructor(private _snackBar: MatSnackBar) {
       this.globalOptions = {
-         chartTitle: "",
-         backgroundColor: undefined,
+         chartTitle: "MyChart",
+         backgroundColor: "transparent",
          enableZoom: false,
-         xCategories: [],
-         yCategories: [],
-         xName: "",
-         yName: "",
+         xCategories: ["Category 1", "Category 2"],
+         yCategories: ["Category 1", "Category 2"],
+         xName: "X-Axis",
+         yName: "Y-Axis",
          xAxisType: "category",
          yAxisType: "value",
       };
@@ -68,8 +68,7 @@ export class ChartControlComponent implements OnInit, OnDestroy {
          datasetName: "Dataset-" + id,
          chartOptions: this._getDefaultChartOptions(),
       });
-      this.tabAnimation = true;
-      this.currentTabIndex = this.datasets.length - 1;
+      this.changeDatasetTab(this.datasets.length - 1);
    }
 
    changeDatasetTab(idx: number) {

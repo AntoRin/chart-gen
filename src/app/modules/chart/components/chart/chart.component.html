@@ -3,7 +3,7 @@
    <div
       id="chartContainer"
       appChartContainer
-      [controlSignal]="chartControlsSubject"
+      [controlSignal$]="chartControl$"
       (accessContainer)="setContainer($event)"
       appScrollIntoView
       [scrollSignal]="scrollSignal"

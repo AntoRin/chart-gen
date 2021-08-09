@@ -38,9 +38,12 @@ export class AnimateTabDirective implements OnInit, OnChanges {
 
    ngOnInit(): void {}
 
-   async ngOnChanges(): Promise<void> {
+   ngOnChanges(): void {
       if (!this.animation) return;
+      this._animate();
+   }
 
+   private async _animate(): Promise<void> {
       this.opacity = +window.getComputedStyle(this._element).getPropertyValue("opacity");
       this._diff = (10 / 100) * this._elementOpacity;
       try {
@@ -64,13 +67,13 @@ export class AnimateTabDirective implements OnInit, OnChanges {
             });
          }
 
-         return this.endAnimation();
+         return this._endAnimation();
       } catch (error: any) {
-         return this.endAnimation();
+         return this._endAnimation();
       }
    }
 
-   endAnimation(): void {
+   private _endAnimation(): void {
       this.animation = false;
       clearTimeout(this._timeoutId);
    }

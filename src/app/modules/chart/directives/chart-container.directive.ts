@@ -1,6 +1,6 @@
 import { Directive, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import * as echart from "echarts";
-import { Subject, Subscription } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { Chart } from "../../../interfaces/Chart";
 import { ChartOptions } from "../../../interfaces/ChartOptions";
 import { GlobalOptions } from "../../../interfaces/GlobalOptions";
@@ -10,7 +10,7 @@ import { DatasetsType } from "../../../types";
    selector: "[appChartContainer]",
 })
 export class ChartContainerDirective implements OnInit, OnDestroy {
-   @Input() controlSignal: Subject<Chart> | undefined;
+   @Input() controlSignal$: Observable<Chart> | undefined;
    @Output() accessContainer: EventEmitter<HTMLDivElement> = new EventEmitter<HTMLDivElement>();
 
    private _subscriptionRef: Subscription | undefined;
@@ -26,12 +26,21 @@ export class ChartContainerDirective implements OnInit, OnDestroy {
 
    ngOnInit(): void {
       this.accessContainer.emit(this.containerElement);
-      if (this.controlSignal)
-         this._subscriptionRef = this.controlSignal.asObservable().subscribe((chart: Chart) => {
+      if (this.controlSignal$)
+         this._subscriptionRef = this.controlSignal$.subscribe((chart: Chart) => {
             this.datasets = chart.datasets;
             this._globalOptions = chart.globalOptions;
             this._createChart();
          });
+   }
+
+   public getDataUrl(): string | undefined {
+      return this.chartInstance?.getConnectedDataURL({
+         type: "png",
+         pixelRatio: 1,
+         excludeComponents: [],
+         backgroundColor: "transparent",
+      });
    }
 
    private _createChart(): void {
@@ -41,7 +50,6 @@ export class ChartContainerDirective implements OnInit, OnDestroy {
       else this.chartInstance.clear();
 
       const series: any[] = this._createSeries();
-      console.log(series);
 
       const options = {
          title: {

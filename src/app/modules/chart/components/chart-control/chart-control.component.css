@@ -80,7 +80,7 @@
 }
 
 .settings-form mat-label {
-   color: white;
+   color: lightblue;
 }
 
 .settings-form option {
@@ -123,6 +123,10 @@ mat-radio-button {
    font-size: 1.3rem;
    margin: 10px 15px;
    min-width: fit-content;
+}
+
+mat-slide-toggle {
+   color: lightblue;
 }
 
 .snackbar-control {
