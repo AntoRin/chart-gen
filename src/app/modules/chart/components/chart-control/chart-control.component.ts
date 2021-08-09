@@ -2,11 +2,11 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from "@
 import { MatSlideToggleChange } from "@angular/material/slide-toggle";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Observable, Subscription } from "rxjs";
-import { Chart } from "../../../interfaces/Chart";
-import { ChartOptions } from "../../../interfaces/ChartOptions";
-import { GlobalOptions } from "../../../interfaces/GlobalOptions";
-import { ActionDialogComponent } from "../../../shared/components/action-dialog/action-dialog.component";
-import { DatasetsType, GraphType, SettingsTabType } from "../../../types";
+import { Chart } from "../../../../interfaces/Chart";
+import { ChartOptions } from "../../../../interfaces/ChartOptions";
+import { GlobalOptions } from "../../../../interfaces/GlobalOptions";
+import { ActionDialogComponent } from "../../../../shared/components/action-dialog/action-dialog.component";
+import { DatasetsType, GraphType, SettingsTabType } from "../../../../types";
 
 @Component({
    selector: "app-chart-control",
@@ -22,8 +22,10 @@ export class ChartControlComponent implements OnInit, OnDestroy {
    public currentTabIndex: number = 0;
    public globalOptions: GlobalOptions;
 
-   public selectedTab: SettingsTabType = "basic";
+   public selectedSettingsTab: SettingsTabType = "basic";
    public allowedGraphTypes: GraphType[] = ["bar", "line", "scatter"];
+
+   public tabAnimation: boolean = false;
 
    constructor(private _snackBar: MatSnackBar) {
       this.globalOptions = {
@@ -63,18 +65,19 @@ export class ChartControlComponent implements OnInit, OnDestroy {
    createNewDatasetTab() {
       const id = this._primaryIdx++;
       this.datasets.push({
-         datasetName: "Chart-Tab-" + id,
+         datasetName: "Dataset-" + id,
          chartOptions: this._getDefaultChartOptions(),
       });
-
+      this.tabAnimation = true;
       this.currentTabIndex = this.datasets.length - 1;
    }
 
    changeDatasetTab(idx: number) {
+      this.tabAnimation = true;
       this.currentTabIndex = idx;
    }
 
-   deleteDatasetTab(idx: number) {
+   confirmDatasetTabDelete(idx: number) {
       const action$: Observable<string> = this._actionDialog.open(
          "Delete Tab?",
          "Are you sure you want to delete this tab without saving?",
@@ -86,22 +89,26 @@ export class ChartControlComponent implements OnInit, OnDestroy {
 
       subRef = action$.subscribe((action: string) => {
          if (action.toLocaleLowerCase() === "confirm") {
-            this.datasets.splice(idx, 1);
-
-            if (idx === this.currentTabIndex) {
-               this.currentTabIndex = !!this.datasets[idx - 1] ? idx - 1 : !!this.datasets[idx + 1] ? idx + 1 : 0;
-            } else if (idx < this.currentTabIndex) {
-               this.currentTabIndex = this.currentTabIndex - 1;
-            } else {
-            }
+            this.deleteDatasetTab(idx);
          }
 
          if (subRef) subRef.unsubscribe();
       });
    }
 
-   changeTab(tabName: SettingsTabType) {
-      this.selectedTab = tabName;
+   deleteDatasetTab(idx: number) {
+      this.datasets.splice(idx, 1);
+
+      if (idx === this.currentTabIndex) {
+         this.currentTabIndex = !!this.datasets[idx - 1] ? idx - 1 : !!this.datasets[idx + 1] ? idx + 1 : 0;
+      } else if (idx < this.currentTabIndex) {
+         this.currentTabIndex = this.currentTabIndex - 1;
+      } else {
+      }
+   }
+
+   changeSettingsTab(tabName: SettingsTabType) {
+      this.selectedSettingsTab = tabName;
    }
 
    setZoom(event: MatSlideToggleChange) {
@@ -133,15 +140,27 @@ export class ChartControlComponent implements OnInit, OnDestroy {
    createChart(_: any): void {
       if (this.globalOptions.xAxisType === "category" && this.globalOptions.yAxisType === "category") {
          this._openSnackbar("Both the axes cannot be categories - one must be a value");
+         this.selectedSettingsTab = "basic";
          return;
       }
 
       if (
-         !this.datasets[this.currentTabIndex].chartOptions.xAxisKeys.length ||
+         (this.globalOptions.xAxisType === "category" || this.globalOptions.yAxisType === "category") &&
+         !this.globalOptions.xCategories.length &&
+         !this.globalOptions.yCategories.length
+      ) {
+         console.log(this.globalOptions.xCategories);
+         this._openSnackbar("Axis initialized as category must have category names");
+         this.selectedSettingsTab = "basic";
+         return;
+      }
+
+      if (
+         !this.datasets[this.currentTabIndex].chartOptions.xAxisKeys.length &&
          !this.datasets[this.currentTabIndex].chartOptions.yAxisKeys.length
       ) {
          this._openSnackbar("Axis values cannot be empty");
-         if (this.selectedTab !== "initialize") this.selectedTab = "initialize";
+         if (this.selectedSettingsTab !== "initialize") this.selectedSettingsTab = "initialize";
          return;
       }
 

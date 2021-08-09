@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 
 @Component({
@@ -6,7 +6,7 @@ import { Observable, Subject } from "rxjs";
    templateUrl: "./action-dialog.component.html",
    styleUrls: ["./action-dialog.component.css"],
 })
-export class ActionDialogComponent implements OnInit {
+export class ActionDialogComponent implements OnInit, OnDestroy {
    private _actionStatusSubject: Subject<string>;
 
    public title: string;
@@ -49,5 +49,9 @@ export class ActionDialogComponent implements OnInit {
 
    private _notifyClose(selectedAction: string): void {
       this._actionStatusSubject.next(selectedAction);
+   }
+
+   ngOnDestroy() {
+      this._actionStatusSubject.complete();
    }
 }

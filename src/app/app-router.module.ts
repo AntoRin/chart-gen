@@ -5,17 +5,20 @@ import { LandingComponent } from "./app-components/landing/landing.component";
 @NgModule({
    declarations: [],
    imports: [
-      RouterModule.forRoot([
-         {
-            path: "",
-            component: LandingComponent,
-            pathMatch: "full",
-         },
-         {
-            path: "**",
-            redirectTo: "",
-         },
-      ]),
+      RouterModule.forRoot(
+         [
+            {
+               path: "",
+               component: LandingComponent,
+               pathMatch: "full",
+            },
+            {
+               path: "**",
+               redirectTo: "",
+            },
+         ],
+         { anchorScrolling: "enabled" }
+      ),
    ],
    exports: [RouterModule],
 })

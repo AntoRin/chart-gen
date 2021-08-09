@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subject, Subscription } from "rxjs";
-import { Chart } from "../../../interfaces/Chart";
+import { Chart } from "../../../../interfaces/Chart";
 
 @Component({
    templateUrl: "./chart.component.html",

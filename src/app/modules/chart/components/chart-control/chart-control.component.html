@@ -6,7 +6,7 @@
          [ngClass]="currentTabIndex === idx ? 'dataset-tab-item-active' : ''"
          (click)="changeDatasetTab(idx)"
          >{{ dataset.datasetName }}
-         <button mat-icon-button (click)="deleteDatasetTab(idx); $event.stopPropagation()">
+         <button mat-icon-button (click)="confirmDatasetTabDelete(idx); $event.stopPropagation()">
             <mat-icon style="font-size: 1rem">close</mat-icon>
          </button>
       </span>
@@ -20,23 +20,29 @@
          <mat-nav-list class="nav-list-container">
             <mat-list-item
                class="list-btn"
-               [ngClass]="selectedTab === 'basic' ? 'list-btn-selected' : ''"
-               (click)="changeTab('basic')"
+               [ngClass]="selectedSettingsTab === 'basic' ? 'list-btn-selected' : ''"
+               (click)="changeSettingsTab('basic')"
             >
                Basic Settings
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item
                class="list-btn"
-               [ngClass]="selectedTab === 'initialize' ? 'list-btn-selected' : ''"
-               (click)="changeTab('initialize')"
+               [ngClass]="selectedSettingsTab === 'initialize' ? 'list-btn-selected' : ''"
+               (click)="changeSettingsTab('initialize')"
             >
                Initialize Chart
             </mat-list-item>
          </mat-nav-list>
       </div>
-      <form class="settings-form" (ngSubmit)="createChart($event)" *ngIf="datasets[currentTabIndex]">
-         <section *ngIf="selectedTab === 'basic'" class="tab-section input-container">
+      <form
+         appAnimateTab
+         [(animation)]="tabAnimation"
+         class="settings-form"
+         (ngSubmit)="createChart($event)"
+         *ngIf="datasets[currentTabIndex]"
+      >
+         <section *ngIf="selectedSettingsTab === 'basic'" class="tab-section input-container">
             <mat-form-field appearance="fill" class="full-width">
                <mat-label>Chart Title</mat-label>
                <input matInput type="text" name="chartTitle" [(ngModel)]="globalOptions.chartTitle" />
@@ -86,6 +92,7 @@
                <br />
                <br />
                <app-chip-input
+                  id="xCategory"
                   *ngIf="globalOptions.yAxisType === 'category'"
                   [includeBtn]="true"
                   [chipList]="globalOptions.yCategories"
@@ -97,7 +104,7 @@
                ></app-chip-input>
             </div>
          </section>
-         <section *ngIf="selectedTab === 'initialize'" class="tab-section">
+         <section *ngIf="selectedSettingsTab === 'initialize'" class="tab-section">
             <div class="input-container">
                <mat-form-field class="full-width">
                   <mat-label>Name of the Dataset</mat-label>
@@ -151,7 +158,7 @@
                class="action-btn-font"
                mat-raised-button
                color="primary"
-               *ngIf="selectedTab === 'initialize'"
+               *ngIf="selectedSettingsTab === 'initialize'"
                (click)="swapValues()"
             >
                Swap values

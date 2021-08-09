@@ -1,10 +1,10 @@
 import { Directive, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import * as echart from "echarts";
 import { Subject, Subscription } from "rxjs";
-import { Chart } from "../../interfaces/Chart";
-import { ChartOptions } from "../../interfaces/ChartOptions";
-import { GlobalOptions } from "../../interfaces/GlobalOptions";
-import { DatasetsType } from "../../types";
+import { Chart } from "../../../interfaces/Chart";
+import { ChartOptions } from "../../../interfaces/ChartOptions";
+import { GlobalOptions } from "../../../interfaces/GlobalOptions";
+import { DatasetsType } from "../../../types";
 
 @Directive({
    selector: "[appChartContainer]",
