@@ -5,26 +5,24 @@
       [rowHover]="true"
       styleClass="p-datatable-customers p-datatable-gridlines"
       [globalFilterFields]="['globalOptions.chartTitle']"
+      dataKey="datasets"
    >
       <ng-template pTemplate="caption">
-         <div class="p-d-flex ng-star-inserted search-caption">
+         <div class="p-d-flex search-caption">
             <button
                pButton
                label="Clear"
                class="p-button-outlined p-button p-component"
                icon="pi pi-filter-slash"
                (click)="clear(chartListTable)"
-            >
-               <span class="p-button-icon p-button-icon-left pi pi-filter-slash"></span>
-               <span class="p-button-label">Clear</span>
-            </button>
+            ></button>
             <span class="p-input-icon-left p-ml-auto">
                <i class="pi pi-search"></i>
                <input
                   pInputText
                   class="p-inputtext p-component"
                   type="text"
-                  (input)="filter($event, chartListTable)"
+                  (input)="filterAll($event, chartListTable)"
                   placeholder="Search keyword"
                />
             </span>
@@ -32,22 +30,96 @@
       </ng-template>
       <ng-template pTemplate="header">
          <tr>
+            <th style="width: 3rem"></th>
             <th pSortableColumn="globalOptions.chartTitle">Chart Title<p-sortIcon field="globalOptions.chartTitle"></p-sortIcon></th>
             <th pSortableColumn="datasets.length">No. of Datasets<p-sortIcon field="globalOptions.chartTitle"></p-sortIcon></th>
             <th>X-Axis Name</th>
-            <th>X-Axis Type</th>
+            <th>
+               <p-columnFilter field="globalOptions.xAxisType" matchMode="equals" [showMenu]="false">
+                  <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                     <p-dropdown
+                        [ngModel]="value"
+                        [options]="['category', 'value']"
+                        (onChange)="filter($event.value)"
+                        placeholder="X-Axis Type"
+                        [showClear]="false"
+                     >
+                        <ng-template let-option pTemplate="item">
+                           <span>{{ option }}</span>
+                        </ng-template>
+                     </p-dropdown>
+                  </ng-template>
+               </p-columnFilter>
+            </th>
             <th>Y-Axis Name</th>
-            <th>Y-Axis Type</th>
+            <th>
+               <p-columnFilter field="globalOptions.yAxisType" matchMode="equals" [showMenu]="false">
+                  <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                     <p-dropdown
+                        [ngModel]="value"
+                        [options]="['category', 'value']"
+                        (onChange)="filter($event.value)"
+                        placeholder="Y-Axis Type"
+                        [showClear]="false"
+                     >
+                        <ng-template let-option pTemplate="item">
+                           <span>{{ option }}</span>
+                        </ng-template>
+                     </p-dropdown>
+                  </ng-template>
+               </p-columnFilter>
+            </th>
          </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-chart>
-         <tr class="data-row" (click)="loadChart(chart)">
+      <ng-template pTemplate="body" let-chart let-expanded="expanded">
+         <tr class="data-row" (dblclick)="loadChart(chart)">
+            <td>
+               <button
+                  type="button"
+                  pButton
+                  pRipple
+                  [pRowToggler]="chart"
+                  class="p-button-text p-button-rounded p-button-plain"
+                  [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+               ></button>
+            </td>
             <td>{{ chart.globalOptions.chartTitle }}</td>
             <td>{{ chart.datasets.length }}</td>
             <td>{{ chart.globalOptions.xName }}</td>
             <td>{{ chart.globalOptions.xAxisType }}</td>
             <td>{{ chart.globalOptions.yName }}</td>
             <td>{{ chart.globalOptions.yAxisType }}</td>
+         </tr>
+      </ng-template>
+      <ng-template pTemplate="rowexpansion" let-chart>
+         <tr>
+            <td colspan="7">
+               <div class="p-p-3">
+                  <p-table [value]="chart.datasets" dataKey="id">
+                     <ng-template pTemplate="header">
+                        <tr>
+                           <th pSortableColumn="dataset.datasetName">
+                              Dataset Name<p-sortIcon field="dataset.datasetName"></p-sortIcon>
+                           </th>
+                           <th pSortableColumn="dataset.chartOptions.type">
+                              Chart Type <p-sortIcon field="dataset.chartOptions.type"></p-sortIcon>
+                           </th>
+                        </tr>
+                     </ng-template>
+                     <ng-template pTemplate="body" let-dataset>
+                        <tr>
+                           <td>{{ dataset.datasetName }}</td>
+                           <td>{{ dataset.chartOptions.type }}</td>
+                        </tr>
+                     </ng-template>
+                     <ng-template pTemplate="emptymessage">
+                        <tr>
+                           <td colspan="6">There are no order for this chart yet.</td>
+                        </tr>
+                     </ng-template>
+                  </p-table>
+               </div>
+            </td>
          </tr>
       </ng-template>
    </p-table>

@@ -23,7 +23,7 @@ export class ChartListComponent implements OnInit {
       this.router.navigate(["chart"]);
    }
 
-   filter(event: Event, chartListTable: Table) {
+   filterAll(event: Event, chartListTable: Table) {
       chartListTable.filterGlobal((event.target as HTMLInputElement).value, "contains");
    }
 

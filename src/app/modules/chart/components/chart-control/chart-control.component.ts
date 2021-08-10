@@ -37,6 +37,7 @@ export class ChartControlComponent implements OnInit, OnDestroy {
       if (availableChart) {
          this.globalOptions = { ...availableChart.globalOptions };
          this.datasets = [...availableChart.datasets];
+         this._primaryIdx = +this.datasets[this.datasets.length - 1].datasetName.split("Dataset-")[1] + 1;
          this.createChart();
       } else {
          this.createNewDatasetTab();
