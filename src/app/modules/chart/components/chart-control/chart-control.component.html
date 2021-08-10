@@ -39,7 +39,7 @@
          appAnimateTab
          [(animation)]="tabAnimation"
          class="settings-form"
-         (ngSubmit)="createChart($event)"
+         (ngSubmit)="createChart()"
          *ngIf="datasets[currentTabIndex]"
       >
          <section *ngIf="selectedSettingsTab === 'basic'" class="tab-section input-container">

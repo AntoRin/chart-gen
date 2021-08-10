@@ -1,6 +1,8 @@
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
+import { ChartListComponent } from "./components/chart-list/chart-list.component";
 import { ChartComponent } from "./components/chart/chart.component";
+import { SaveChartGuard } from "./guards/save-chart.guard";
 
 @NgModule({
    declarations: [],
@@ -9,6 +11,11 @@ import { ChartComponent } from "./components/chart/chart.component";
          {
             path: "chart",
             component: ChartComponent,
+            canDeactivate: [SaveChartGuard],
+         },
+         {
+            path: "charts/saved",
+            component: ChartListComponent,
          },
       ]),
    ],

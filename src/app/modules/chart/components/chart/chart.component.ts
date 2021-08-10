@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Observable, Subject, Subscription } from "rxjs";
 import { Chart } from "../../../../interfaces/Chart";
+import { ChartService } from "../../services/chart.service";
 
 @Component({
    templateUrl: "./chart.component.html",
@@ -12,13 +13,14 @@ export class ChartComponent implements OnInit, OnDestroy {
    private _subscriptionRef: Subscription | null = null;
    private _chartControlsSubject: Subject<Chart> = new Subject<Chart>();
 
+   public chart: Chart | undefined;
    public chartTitle: string = "";
    public showUserConfirmDialog: boolean = false;
    public scrollSignal: Subject<any> = new Subject<any>();
    public init: boolean = false;
    public chartControl$: Observable<Chart> = this._chartControlsSubject.asObservable();
 
-   public constructor() {}
+   public constructor(private chartService: ChartService) {}
 
    public ngOnInit(): void {}
 
@@ -27,13 +29,20 @@ export class ChartComponent implements OnInit, OnDestroy {
    }
 
    handleChartCreation(chart: Chart) {
-      this.chartTitle = chart.globalOptions.chartTitle;
-      this._chartControlsSubject.next(chart);
+      this.chart = { ...chart };
+      this.chartTitle = this.chart.globalOptions.chartTitle;
+      this._chartControlsSubject.next(this.chart);
       this.scrollSignal.next();
       this.init = true;
    }
 
-   downloadCanvas() {
+   saveCanvasToLocalStorage(): void {
+      if (!this.chart) return;
+
+      this.chartService.saveChartToLocalStorage(this.chart);
+   }
+
+   downloadCanvas(): void {
       if (!this._chartContainerRef) return;
 
       const canvas: HTMLCanvasElement | null = this._chartContainerRef.querySelector("canvas");

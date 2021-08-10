@@ -8,10 +8,19 @@
    height: 600px;
 }
 
-.download-chart {
+.chart-actions {
    position: fixed;
    bottom: 10px;
    right: 5px;
+}
+
+.chart-action-buttons {
+   display: flex;
+   flex-direction: column;
+}
+
+.chart-action-buttons button {
+   margin: 5px 0;
 }
 
 .download-options-backdrop {

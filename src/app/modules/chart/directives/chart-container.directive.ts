@@ -26,12 +26,13 @@ export class ChartContainerDirective implements OnInit, OnDestroy {
 
    ngOnInit(): void {
       this.accessContainer.emit(this.containerElement);
-      if (this.controlSignal$)
+      if (this.controlSignal$) {
          this._subscriptionRef = this.controlSignal$.subscribe((chart: Chart) => {
             this.datasets = chart.datasets;
             this._globalOptions = chart.globalOptions;
             this._createChart();
          });
+      }
    }
 
    public getDataUrl(): string | undefined {

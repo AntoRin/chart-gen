@@ -3,10 +3,10 @@ import { MatSlideToggleChange } from "@angular/material/slide-toggle";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Observable, Subscription } from "rxjs";
 import { Chart } from "../../../../interfaces/Chart";
-import { ChartOptions } from "../../../../interfaces/ChartOptions";
 import { GlobalOptions } from "../../../../interfaces/GlobalOptions";
 import { ActionDialogComponent } from "../../../../shared/components/action-dialog/action-dialog.component";
 import { DatasetsType, GraphType, SettingsTabType } from "../../../../types";
+import { ChartService } from "../../services/chart.service";
 
 @Component({
    selector: "app-chart-control",
@@ -18,40 +18,29 @@ export class ChartControlComponent implements OnInit, OnDestroy {
    @Output() public chartInit: EventEmitter<Chart> = new EventEmitter<Chart>();
 
    private _primaryIdx: number = 0;
+   public globalOptions: GlobalOptions;
    public datasets: DatasetsType[] = [];
    public currentTabIndex: number = 0;
-   public globalOptions: GlobalOptions;
 
    public selectedSettingsTab: SettingsTabType = "basic";
    public allowedGraphTypes: GraphType[] = ["bar", "line", "scatter"];
 
    public tabAnimation: boolean = false;
 
-   constructor(private _snackBar: MatSnackBar) {
-      this.globalOptions = {
-         chartTitle: "MyChart",
-         backgroundColor: "transparent",
-         enableZoom: false,
-         xCategories: ["Category 1", "Category 2"],
-         yCategories: ["Category 1", "Category 2"],
-         xName: "X-Axis",
-         yName: "Y-Axis",
-         xAxisType: "category",
-         yAxisType: "value",
-      };
+   constructor(private _snackBar: MatSnackBar, private chartService: ChartService) {
+      this.globalOptions = { ...this.chartService.getDefaultGlobalOptions() };
    }
 
    ngOnInit(): void {
-      this.createNewDatasetTab();
-   }
+      const availableChart: Chart | undefined = this.chartService.getCurrentChart();
 
-   private _getDefaultChartOptions(): ChartOptions {
-      return {
-         type: "bar",
-         xAxisKeys: [],
-         yAxisKeys: [],
-         seriesName: "",
-      };
+      if (availableChart) {
+         this.globalOptions = { ...availableChart.globalOptions };
+         this.datasets = [...availableChart.datasets];
+         this.createChart();
+      } else {
+         this.createNewDatasetTab();
+      }
    }
 
    private _openSnackbar(message: string) {
@@ -66,7 +55,7 @@ export class ChartControlComponent implements OnInit, OnDestroy {
       const id = this._primaryIdx++;
       this.datasets.push({
          datasetName: "Dataset-" + id,
-         chartOptions: this._getDefaultChartOptions(),
+         chartOptions: { ...this.chartService.getDefaultChartOptions() },
       });
       this.changeDatasetTab(this.datasets.length - 1);
    }
@@ -136,7 +125,7 @@ export class ChartControlComponent implements OnInit, OnDestroy {
       this.datasets[this.currentTabIndex].chartOptions.yAxisKeys = [...temp];
    }
 
-   createChart(_: any): void {
+   createChart(): void {
       if (this.globalOptions.xAxisType === "category" && this.globalOptions.yAxisType === "category") {
          this._openSnackbar("Both the axes cannot be categories - one must be a value");
          this.selectedSettingsTab = "basic";

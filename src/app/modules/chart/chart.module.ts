@@ -12,9 +12,20 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialUIModule } from "../material-ui/material-ui.module";
 import { ChartRouterModule } from "./chart-router.module";
 import { UtilityModule } from "../../shared/utility.module";
+import { ChartListComponent } from "./components/chart-list/chart-list.component";
+import { PrimeNgModule } from "../prime-ng/prime-ng.module";
 
 @NgModule({
-   imports: [ChartRouterModule, CommonModule, BrowserModule, FormsModule, BrowserAnimationsModule, MaterialUIModule, UtilityModule],
+   imports: [
+      ChartRouterModule,
+      CommonModule,
+      BrowserModule,
+      FormsModule,
+      BrowserAnimationsModule,
+      MaterialUIModule,
+      PrimeNgModule,
+      UtilityModule,
+   ],
    declarations: [
       ChartComponent,
       ChartContainerDirective,
@@ -22,6 +33,7 @@ import { UtilityModule } from "../../shared/utility.module";
       ChipInputComponent,
       ScrollIntoViewDirective,
       ChipInputEditorComponent,
+      ChartListComponent,
    ],
    exports: [ChartRouterModule, ChartComponent, MaterialUIModule],
 })

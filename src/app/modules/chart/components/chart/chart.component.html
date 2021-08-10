@@ -8,10 +8,15 @@
       appScrollIntoView
       [scrollSignal]="scrollSignal"
    ></div>
-   <div class="download-chart" *ngIf="init">
-      <button type="button" mat-fab color="primary" matTooltip matTooltipPosition="before" (click)="downloadCanvas()">
-         <mat-icon>download</mat-icon>
-      </button>
+   <div class="chart-actions" *ngIf="init">
+      <div class="chart-action-buttons">
+         <button type="button" mat-fab color="primary" matTooltip matTooltipPosition="before" (click)="saveCanvasToLocalStorage()">
+            <mat-icon>save</mat-icon>
+         </button>
+         <button type="button" mat-fab color="primary" matTooltip matTooltipPosition="before" (click)="downloadCanvas()">
+            <mat-icon>download</mat-icon>
+         </button>
+      </div>
    </div>
    <div class="download-options-backdrop" *ngIf="showUserConfirmDialog">
       <div class="download-modal">
