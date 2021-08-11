@@ -25,7 +25,7 @@
    align-items: center;
    flex-direction: column;
    cursor: pointer;
-   background-color: rgb(66, 66, 109);
+   background-color: rgb(33, 33, 58);
    color: white;
    transition: 0.5s;
 }

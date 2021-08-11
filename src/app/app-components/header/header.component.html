@@ -1,13 +1,29 @@
-<header>
-   <div class="home-btn">
-      <button mat-icon-button (click)="goBack()">
-         <mat-icon class="icon">home</mat-icon>
+<ng-container>
+   <header>
+      <button mat-icon-button (click)="isNavBarOpen = true">
+         <mat-icon>menu</mat-icon>
       </button>
-      <a routerLink="charts/saved">
-         <button mat-icon-button>
-            <mat-icon class="icon">save</mat-icon>
+      <h1 (click)="navigateTo([''])">{{ text }}</h1>
+   </header>
+   <p-sidebar [(visible)]="isNavBarOpen" [style]="{ backgroundColor: 'lightblue' }">
+      <mat-action-list>
+         <button [class.active]="isRouteActive('/')" class="list-btn" mat-list-item (click)="navigateTo([''])">Home</button>
+         <button
+            [class.active]="isRouteActive('/charts/create')"
+            class="list-btn"
+            mat-list-item
+            (click)="navigateTo(['charts', 'create'])"
+         >
+            New Chart
          </button>
-      </a>
-   </div>
-   <h1>{{ text }}</h1>
-</header>
+         <button
+            [class.active]="isRouteActive('/charts/saved')"
+            class="list-btn"
+            mat-list-item
+            (click)="navigateTo(['charts', 'saved'])"
+         >
+            Saved Charts
+         </button>
+      </mat-action-list>
+   </p-sidebar>
+</ng-container>

@@ -35,6 +35,6 @@ import { PrimeNgModule } from "../prime-ng/prime-ng.module";
       ChipInputEditorComponent,
       ChartListComponent,
    ],
-   exports: [ChartRouterModule, ChartComponent, MaterialUIModule],
+   exports: [ChartRouterModule, ChartComponent],
 })
 export class ChartModule {}

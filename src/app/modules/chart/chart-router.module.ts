@@ -9,7 +9,7 @@ import { SaveChartGuard } from "./guards/save-chart.guard";
    imports: [
       RouterModule.forChild([
          {
-            path: "chart",
+            path: "charts/create",
             component: ChartComponent,
             canDeactivate: [SaveChartGuard],
          },

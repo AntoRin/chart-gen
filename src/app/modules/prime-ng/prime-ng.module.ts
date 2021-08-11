@@ -5,10 +5,11 @@ import { StyleClassModule } from "primeng/styleclass";
 import { ButtonModule } from "primeng/button";
 import { RippleModule } from "primeng/ripple";
 import { ContextMenuModule } from "primeng/contextmenu";
+import { SidebarModule } from "primeng/sidebar";
 
 @NgModule({
    declarations: [],
    imports: [],
-   exports: [TableModule, StyleClassModule, DropdownModule, ButtonModule, RippleModule, ContextMenuModule],
+   exports: [TableModule, StyleClassModule, DropdownModule, ButtonModule, RippleModule, ContextMenuModule, SidebarModule],
 })
 export class PrimeNgModule {}

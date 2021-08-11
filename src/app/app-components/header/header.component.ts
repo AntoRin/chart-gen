@@ -8,12 +8,18 @@ import { Router } from "@angular/router";
 })
 export class HeaderComponent implements OnInit {
    public text: string = "ChartGen";
+   public isNavBarOpen: boolean = false;
 
    constructor(private _router: Router) {}
 
    ngOnInit(): void {}
 
-   goBack(): void {
-      this._router.navigate([""]);
+   navigateTo(commands: any[]): void {
+      this._router.navigate(commands);
+      this.isNavBarOpen = false;
+   }
+
+   isRouteActive(route: string): boolean {
+      return this._router.url === route;
    }
 }

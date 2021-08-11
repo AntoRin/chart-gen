@@ -20,7 +20,7 @@ export class ChartListComponent implements OnInit {
 
    loadChart(chart: Chart): void {
       this.chartService.setCurrentChart(chart);
-      this.router.navigate(["chart"]);
+      this.router.navigate(["charts", "create"]);
    }
 
    filterAll(event: Event, chartListTable: Table) {
