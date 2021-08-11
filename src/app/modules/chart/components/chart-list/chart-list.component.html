@@ -5,7 +5,7 @@
       [rowHover]="true"
       styleClass="p-datatable-customers p-datatable-gridlines"
       [globalFilterFields]="['globalOptions.chartTitle']"
-      dataKey="datasets"
+      dataKey="globalOptions.chartTitle"
    >
       <ng-template pTemplate="caption">
          <div class="p-d-flex search-caption">
@@ -95,13 +95,11 @@
          <tr>
             <td colspan="7">
                <div class="p-p-3">
-                  <p-table [value]="chart.datasets" dataKey="id">
+                  <p-table [value]="chart.datasets" dataKey="datasetName">
                      <ng-template pTemplate="header">
                         <tr>
-                           <th pSortableColumn="dataset.datasetName">
-                              Dataset Name<p-sortIcon field="dataset.datasetName"></p-sortIcon>
-                           </th>
-                           <th pSortableColumn="dataset.chartOptions.type">
+                           <th pSortableColumn="datasetName">Dataset Name<p-sortIcon field="dataset.datasetName"></p-sortIcon></th>
+                           <th pSortableColumn="chartOptions.type">
                               Chart Type <p-sortIcon field="dataset.chartOptions.type"></p-sortIcon>
                            </th>
                         </tr>
