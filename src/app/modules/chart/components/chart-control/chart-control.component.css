@@ -38,36 +38,9 @@
    color: aliceblue;
    box-shadow: 0px 25px 25px rgba(0, 0, 0, 0.504);
    margin-bottom: 20px;
-   display: grid;
-   grid-template-columns: 1fr 4fr;
-   min-height: 80vh;
+   min-height: 70vh;
    max-height: fit-content;
    overflow-x: hidden;
-}
-
-.tab-nav {
-   border-right: 1px solid #fff;
-   box-shadow: 25px 0 25px rgba(0, 0, 0, 0.175);
-   background-color: rgb(55, 55, 107);
-}
-
-.list-btn {
-   color: #fff;
-   font-size: 1.2rem;
-   background-color: rgb(88, 88, 136);
-   box-shadow: 0 10px 5px rgba(17, 17, 17, 0.116);
-}
-
-.list-btn:hover {
-   background-color: rgba(0, 0, 0, 0.637);
-}
-
-.list-btn:focus {
-   background-color: rgba(0, 0, 0, 0.637);
-}
-
-.list-btn-selected {
-   background-color: rgba(0, 0, 0, 0.637);
 }
 
 .settings-form {
@@ -77,6 +50,23 @@
    display: flex;
    justify-content: space-between;
    flex-direction: column;
+}
+
+.global-settings-preferences {
+   background-color: rgb(52, 52, 94);
+   color: white;
+}
+
+.global-axes-wrapper {
+   display: flex;
+   justify-content: space-around;
+}
+
+.global-settings-axis {
+   background-color: rgb(52, 52, 94);
+   color: white;
+   width: 50%;
+   margin: 10px;
 }
 
 .settings-form mat-label {
@@ -93,9 +83,9 @@
    padding-bottom: 5px;
 }
 
-.tab-section::-webkit-scrollbar {
-   background: rgba(51, 51, 51, 0.726);
-   width: 5px;
+.coordinate-settings {
+   background-color: rgb(52, 52, 94);
+   padding: 5px;
 }
 
 .input-container {
@@ -150,10 +140,5 @@ mat-slide-toggle {
 
    .settings-form {
       flex-grow: 1;
-   }
-
-   .nav-list-container {
-      display: flex;
-      border-bottom: 2px solid #fff;
    }
 }

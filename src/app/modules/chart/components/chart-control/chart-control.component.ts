@@ -58,12 +58,13 @@ export class ChartControlComponent implements OnInit, OnDestroy {
          datasetName: "Dataset-" + id,
          chartOptions: { ...this.chartService.getDefaultChartOptions() },
       });
-      this.changeDatasetTab(this.datasets.length - 1);
+      this.changeDatasetTab(this.datasets.length - 1, false);
    }
 
-   changeDatasetTab(idx: number) {
+   changeDatasetTab(idx: number, changeSettingsTab: boolean = true) {
       this.tabAnimation = true;
       this.currentTabIndex = idx;
+      if (this.selectedSettingsTab === "basic" && changeSettingsTab) this.selectedSettingsTab = "initialize";
    }
 
    confirmDatasetTabDelete(idx: number) {
