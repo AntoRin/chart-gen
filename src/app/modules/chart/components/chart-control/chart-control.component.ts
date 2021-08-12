@@ -105,7 +105,7 @@ export class ChartControlComponent implements OnInit, OnDestroy {
       this.globalOptions.enableZoom = event.checked;
    }
 
-   handleInputModification(newInput: string, axis: "x" | "y") {
+   handleNewValue(newInput: string, axis: "x" | "y") {
       if (axis === "x") {
          if (this.globalOptions.xAxisType === "value" && isNaN(Number(newInput))) {
             this._openSnackbar("Axis initialized as value but is not provided a number");
@@ -127,6 +127,43 @@ export class ChartControlComponent implements OnInit, OnDestroy {
       this.datasets[this.currentTabIndex].chartOptions.yAxisKeys = [...temp];
    }
 
+   resetChart(): void {
+      this.globalOptions = { ...this.chartService.getDefaultGlobalOptions() };
+      this.datasets = [];
+   }
+
+   private _addRequiredCategoryNames(): void {
+      if (this.globalOptions.xAxisType === "category" && this.globalOptions.yAxisType === "value") {
+         let largestDatasetLength: number = 0;
+
+         this.datasets.forEach(
+            dataset =>
+               (largestDatasetLength =
+                  dataset.chartOptions.yAxisKeys.length > largestDatasetLength
+                     ? dataset.chartOptions.yAxisKeys.length
+                     : largestDatasetLength)
+         );
+
+         for (let i = this.globalOptions.xCategories.length; i < largestDatasetLength; i++) {
+            this.globalOptions.xCategories[i] = `Category${i}`;
+         }
+      } else if (this.globalOptions.yAxisType === "category" && this.globalOptions.xAxisType === "value") {
+         let largestDatasetLength: number = 0;
+
+         this.datasets.forEach(
+            dataset =>
+               (largestDatasetLength =
+                  dataset.chartOptions.xAxisKeys.length > largestDatasetLength
+                     ? dataset.chartOptions.xAxisKeys.length
+                     : largestDatasetLength)
+         );
+
+         for (let i = this.globalOptions.yCategories.length; i < largestDatasetLength; i++) {
+            this.globalOptions.yCategories[i] = `Category${i}`;
+         }
+      }
+   }
+
    createChart(): void {
       if (this.globalOptions.xAxisType === "category" && this.globalOptions.yAxisType === "category") {
          this._openSnackbar("Both the axes cannot be categories - one must be a value");
@@ -134,25 +171,18 @@ export class ChartControlComponent implements OnInit, OnDestroy {
          return;
       }
 
-      if (
-         (this.globalOptions.xAxisType === "category" || this.globalOptions.yAxisType === "category") &&
-         !this.globalOptions.xCategories.length &&
-         !this.globalOptions.yCategories.length
-      ) {
-         console.log(this.globalOptions.xCategories);
-         this._openSnackbar("Axis initialized as category must have category names");
-         this.selectedSettingsTab = "basic";
-         return;
+      for (const dataset of this.datasets) {
+         if (
+            (this.globalOptions.xAxisType === "value" && !dataset.chartOptions.xAxisKeys.length) ||
+            (this.globalOptions.yAxisType === "value" && !dataset.chartOptions.yAxisKeys.length)
+         ) {
+            this._openSnackbar("Axis values cannot be empty");
+            if (this.selectedSettingsTab !== "initialize") this.selectedSettingsTab = "initialize";
+            return;
+         }
       }
 
-      if (
-         !this.datasets[this.currentTabIndex].chartOptions.xAxisKeys.length &&
-         !this.datasets[this.currentTabIndex].chartOptions.yAxisKeys.length
-      ) {
-         this._openSnackbar("Axis values cannot be empty");
-         if (this.selectedSettingsTab !== "initialize") this.selectedSettingsTab = "initialize";
-         return;
-      }
+      this._addRequiredCategoryNames();
 
       this.chartInit.emit({
          datasets: this.datasets,

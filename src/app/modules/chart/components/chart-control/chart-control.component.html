@@ -129,7 +129,7 @@
                   <app-chip-input
                      [includeBtn]="true"
                      [chipList]="datasets[currentTabIndex].chartOptions.xAxisKeys"
-                     (chipEvent)="handleInputModification($event, 'x')"
+                     (chipEvent)="handleNewValue($event, 'x')"
                      (chipRemoveEvent)="datasets[currentTabIndex].chartOptions.xAxisKeys.splice(+$event, 1)"
                      (chipModifyEvent)="
                         datasets[currentTabIndex].chartOptions.xAxisKeys[+$event.index] = $event.value
@@ -146,7 +146,7 @@
                   <app-chip-input
                      [includeBtn]="true"
                      [chipList]="datasets[currentTabIndex].chartOptions.yAxisKeys"
-                     (chipEvent)="handleInputModification($event, 'y')"
+                     (chipEvent)="handleNewValue($event, 'y')"
                      (chipRemoveEvent)="datasets[currentTabIndex].chartOptions.yAxisKeys.splice(+$event, 1)"
                      (chipModifyEvent)="
                         datasets[currentTabIndex].chartOptions.yAxisKeys[+$event.index] = $event.value
@@ -171,6 +171,7 @@
             >
                Swap values
             </button>
+            <button type="button" class="action-btn-font" mat-raised-button color="primary" (click)="resetChart()">Reset</button>
             <button type="submit" class="action-btn-font" mat-raised-button color="primary">Generate</button>
          </div>
       </form>
