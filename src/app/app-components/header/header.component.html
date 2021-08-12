@@ -5,7 +5,7 @@
       </button>
       <h1 (click)="navigateTo([''])">{{ text }}</h1>
    </header>
-   <p-sidebar [(visible)]="isNavBarOpen" [style]="{ backgroundColor: 'lightblue' }">
+   <p-sidebar class="side-bar" [(visible)]="isNavBarOpen" [style]="{ backgroundColor: '#4C516D' }">
       <mat-action-list>
          <button [class.active]="isRouteActive('/')" class="list-btn" mat-list-item (click)="navigateTo([''])">Home</button>
          <button

@@ -142,3 +142,14 @@ mat-slide-toggle {
       flex-grow: 1;
    }
 }
+
+@media (max-width: 600px) {
+   .global-axes-wrapper {
+      flex-wrap: wrap;
+   }
+
+   .global-settings-axis {
+      width: 100%;
+      margin: 10px 0;
+   }
+}

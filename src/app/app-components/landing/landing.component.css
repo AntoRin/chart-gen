@@ -13,7 +13,7 @@
    display: flex;
    justify-content: center;
    align-items: center;
-   background-color: rgb(173, 198, 230);
+   background-color: #a3c1ad;
 }
 
 .card {
@@ -25,7 +25,7 @@
    align-items: center;
    flex-direction: column;
    cursor: pointer;
-   background-color: rgb(33, 33, 58);
+   background-color: #4c516d;
    color: white;
    transition: 0.5s;
 }

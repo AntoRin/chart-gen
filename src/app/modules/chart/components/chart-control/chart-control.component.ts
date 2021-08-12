@@ -23,7 +23,7 @@ export class ChartControlComponent implements OnInit, OnDestroy {
    public currentTabIndex: number = 0;
 
    public selectedSettingsTab: SettingsTabType = "basic";
-   public allowedGraphTypes: GraphType[] = ["bar", "line", "scatter"];
+   public allowedGraphTypes: GraphType[] = ["bar", "line", "scatter", "pie"];
 
    public tabAnimation: boolean = false;
 
@@ -144,8 +144,12 @@ export class ChartControlComponent implements OnInit, OnDestroy {
                      : largestDatasetLength)
          );
 
-         for (let i = this.globalOptions.xCategories.length; i < largestDatasetLength; i++) {
-            this.globalOptions.xCategories[i] = `Category${i}`;
+         if (this.globalOptions.xCategories.length > largestDatasetLength) {
+            this.globalOptions.xCategories.length = largestDatasetLength;
+         } else {
+            for (let i = this.globalOptions.xCategories.length; i < largestDatasetLength; i++) {
+               this.globalOptions.xCategories[i] = `Category${i}`;
+            }
          }
       } else if (this.globalOptions.yAxisType === "category" && this.globalOptions.xAxisType === "value") {
          let largestDatasetLength: number = 0;
@@ -158,8 +162,12 @@ export class ChartControlComponent implements OnInit, OnDestroy {
                      : largestDatasetLength)
          );
 
-         for (let i = this.globalOptions.yCategories.length; i < largestDatasetLength; i++) {
-            this.globalOptions.yCategories[i] = `Category${i}`;
+         if (this.globalOptions.yCategories.length > largestDatasetLength) {
+            this.globalOptions.yCategories.length = largestDatasetLength;
+         } else {
+            for (let i = this.globalOptions.yCategories.length; i < largestDatasetLength; i++) {
+               this.globalOptions.yCategories[i] = `Category${i}`;
+            }
          }
       }
    }
@@ -171,13 +179,16 @@ export class ChartControlComponent implements OnInit, OnDestroy {
          return;
       }
 
-      for (const dataset of this.datasets) {
+      for (let i = 0; i < this.datasets.length; i++) {
+         const dataset: DatasetsType = this.datasets[i];
+
          if (
             (this.globalOptions.xAxisType === "value" && !dataset.chartOptions.xAxisKeys.length) ||
             (this.globalOptions.yAxisType === "value" && !dataset.chartOptions.yAxisKeys.length)
          ) {
             this._openSnackbar("Axis values cannot be empty");
             if (this.selectedSettingsTab !== "initialize") this.selectedSettingsTab = "initialize";
+            this.currentTabIndex = i;
             return;
          }
       }

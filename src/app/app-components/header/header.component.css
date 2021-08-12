@@ -10,6 +10,7 @@ header {
    width: 100%;
    user-select: none;
    z-index: 3;
+   color: white;
 }
 
 header h1 {
@@ -20,6 +21,10 @@ header h1 {
 
 mat-icon {
    font-size: 2.5rem;
+}
+
+.side-bar button {
+   color: white !important;
 }
 
 .list-btn {

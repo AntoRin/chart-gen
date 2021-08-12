@@ -48,6 +48,7 @@
                   >Enable Zoom</mat-slide-toggle
                >
             </mat-card>
+            <br />
 
             <div class="global-axes-wrapper">
                <mat-card class="global-settings-axis">
@@ -73,7 +74,6 @@
                      label="X-Axis-Categories"
                   ></app-chip-input>
                </mat-card>
-               <br />
                <mat-card class="global-settings-axis">
                   <mat-form-field appearance="fill" class="full-width">
                      <mat-label>Y-Axis Name</mat-label>
@@ -83,7 +83,6 @@
                      <mat-radio-button value="category">Category</mat-radio-button>
                      <mat-radio-button value="value">Value</mat-radio-button>
                   </mat-radio-group>
-                  <br />
                   <app-chip-input
                      id="xCategory"
                      *ngIf="globalOptions.yAxisType === 'category'"
