@@ -1,9 +1,16 @@
 <ng-container>
    <header>
-      <button mat-icon-button (click)="isNavBarOpen = true">
-         <mat-icon>menu</mat-icon>
-      </button>
-      <h1 (click)="navigateTo([''])">{{ text }}</h1>
+      <div>
+         <button mat-icon-button (click)="isNavBarOpen = true">
+            <mat-icon>menu</mat-icon>
+         </button>
+         <h1 (click)="navigateTo([''])">{{ text }}</h1>
+      </div>
+      <div>
+         <a href="https://github.com/AntoRin/chart-gen" target="_blank" style="text-decoration: none">
+            <button pButton label="GitHub" icon="pi pi-github" class="p-button-outlined"></button>
+         </a>
+      </div>
    </header>
    <p-sidebar class="side-bar" [(visible)]="isNavBarOpen" [style]="{ backgroundColor: '#4C516D' }">
       <mat-action-list>

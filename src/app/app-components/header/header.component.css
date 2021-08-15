@@ -1,7 +1,7 @@
 header {
    position: relative;
    display: flex;
-   justify-content: flex-start;
+   justify-content: space-between;
    align-items: center;
    background-color: rgba(13, 10, 15, 0.867);
    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.404);
@@ -11,6 +11,12 @@ header {
    user-select: none;
    z-index: 3;
    color: white;
+}
+
+header div {
+   display: flex;
+   align-items: center;
+   margin: 0 5px;
 }
 
 header h1 {
